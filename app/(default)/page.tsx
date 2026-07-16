@@ -61,6 +61,11 @@ export default function Home() {
           <h1 className="max-w-2xl text-4xl font-black leading-[1.15] tracking-[-.035em] sm:text-6xl">بريزات كثر.<br/><span className="text-[#68a72b]">فوضى أقل.</span></h1>
           <p className="mt-6 max-w-xl text-lg leading-8 text-[#5d615a]">المشترك المتكامل باش تشحن وتستعمل أجهزتك كاملة بسرعة وأمان، بلا صداع ديال الخيوط.</p>
           <div className="mt-5 flex items-end gap-3"><strong className="text-4xl font-black text-[#b31d25]">169 درهم</strong><span className="pb-1.5 text-sm font-extrabold text-[#1f8d49]">التوصيل مجاني</span></div>
+          <div className="relative mt-7 lg:hidden">
+            <div className="absolute -inset-2 rotate-2 rounded-[1.6rem] bg-[#68a72b]" />
+            <img src="/multiprise-1.png" alt="مشترك كهربائي بأربع بريزات وأربع مداخل USB" className="relative w-full -rotate-1 rounded-[1.4rem] object-cover shadow-2xl" />
+            <div className="absolute -bottom-4 -right-1 rounded-xl bg-white px-4 py-2 shadow-xl"><span className="block text-[10px] font-bold text-[#747870]">طلب ساهل وسريع</span><strong className="text-sm text-[#1f8d49]">عبر واتساب ✓</strong></div>
+          </div>
           <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-4">
             {features.map(([number, label]) => <div key={label} className="rounded-2xl border border-[#dedbd1] bg-white p-4 shadow-sm"><strong className="block text-2xl text-[#1f8d49]">{number}</strong><span className="text-xs font-bold text-[#666b63]">{label}</span></div>)}
           </div>
@@ -69,7 +74,7 @@ export default function Home() {
             <span className="text-sm font-bold text-[#676b64]">✓ خلّص غير ملي توصلك السلعة</span>
           </div>
         </div>
-        <div className="relative">
+        <div className="relative hidden lg:block">
           <div className="absolute -inset-3 rotate-2 rounded-[2rem] bg-[#68a72b]" />
           <img src="/multiprise-1.png" alt="مشترك كهربائي بأربع بريزات وأربع مداخل USB" className="relative w-full -rotate-1 rounded-[1.7rem] object-cover shadow-2xl" />
           <div className="absolute -bottom-5 -right-3 rounded-2xl bg-white px-5 py-3 shadow-xl"><span className="block text-xs font-bold text-[#747870]">طلب ساهل وسريع</span><strong className="text-[#1f8d49]">عبر واتساب ✓</strong></div>
