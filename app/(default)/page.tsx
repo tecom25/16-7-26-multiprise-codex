@@ -1,125 +1,106 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, MouseEvent, useState } from "react";
 
 const whatsappNumber = "212675409754";
 
-const features = [
-  ["4", "بريزات أوروبية"],
-  ["2", "مداخل USB-A سريعة"],
-  ["2", "مداخل USB-C سريعة"],
-  ["1", "زر أمان وتحكم"],
-];
+const Icon = ({ name }: { name: "volume" | "usb" | "shield" | "feather" | "truck" | "wallet" | "check" }) => {
+  const paths = {
+    volume: <><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="m19 9-6 6m0-6 6 6"/></>,
+    usb: <><path d="M12 3v12"/><path d="m8 7 4-4 4 4"/><path d="M8 11H5v4a3 3 0 0 0 3 3h4"/><path d="M16 13v5h-4"/><circle cx="16" cy="11" r="2"/><circle cx="12" cy="20" r="2"/></>,
+    shield: <><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></>,
+    feather: <><path d="M20.2 4.8c-4.5-4.5-12.2-.8-14.4 5.5L3 21l10.7-2.8c6.3-2.2 10-9.9 5.5-14.4Z"/><path d="M6 18 15 9"/></>,
+    truck: <><path d="M3 6h11v10H3z"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></>,
+    wallet: <><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M16 12h5"/><path d="M3 9h18"/></>,
+    check: <path d="m5 12 4 4L19 6"/>,
+  };
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]}</svg>;
+};
 
 const benefits = [
-  ["⚡", "كلشي فبلاصة وحدة", "شحن الحاسوب، التلفون، التلفاز والأجهزة اليومية بمشترك واحد."],
-  ["🛡️", "حماية قوية", "حماية من السخونية الزائدة ومن ارتفاع التيار بمواد مقاومة للاشتعال."],
-  ["🔌", "صغيرة وعملية", "تصميم منظم كيوفر المساحة فالدار، فالمكتب وحتى فالكوزينة."],
+  { icon: "volume" as const, title: "Moteur discret", text: "Un bruit réduit pour toiletter sans stresser votre animal." },
+  { icon: "usb" as const, title: "Rechargeable USB", text: "Sans fil, légère et toujours prête à vous accompagner." },
+  { icon: "shield" as const, title: "Lame de précision", text: "Pensée pour les petites zones et les finitions délicates." },
+  { icon: "feather" as const, title: "Prise en main facile", text: "Un format ergonomique pour garder le contrôle du geste." },
 ];
+
+const kit = ["Tondeuse de précision", "Coupe-griffes", "Peigne métallique", "Lime à griffes", "Brosse de nettoyage", "Flacon applicateur", "Câble USB", "Pochette de rangement"];
 
 export default function Home() {
   const [error, setError] = useState("");
+
+  function tilt(event: MouseEvent<HTMLDivElement>) {
+    const box = event.currentTarget.getBoundingClientRect();
+    const x = (event.clientX - box.left) / box.width - 0.5;
+    const y = (event.clientY - box.top) / box.height - 0.5;
+    event.currentTarget.style.setProperty("--rx", `${-y * 10}deg`);
+    event.currentTarget.style.setProperty("--ry", `${x * 12}deg`);
+    event.currentTarget.style.setProperty("--mx", `${(x + 0.5) * 100}%`);
+    event.currentTarget.style.setProperty("--my", `${(y + 0.5) * 100}%`);
+  }
+
+  function resetTilt(event: MouseEvent<HTMLDivElement>) {
+    event.currentTarget.style.setProperty("--rx", "0deg");
+    event.currentTarget.style.setProperty("--ry", "0deg");
+  }
 
   function submitOrder(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
     const name = String(form.get("name") || "").trim();
     const phone = String(form.get("phone") || "").trim();
-    const address = String(form.get("address") || "").trim();
-
-    if (!name || !address || !/^(?:\+?212|0)[5-7]\d{8}$/.test(phone.replace(/[\s.-]/g, ""))) {
-      setError("عافاك دخل الاسم، العنوان ورقم هاتف مغربي صحيح.");
+    const city = String(form.get("city") || "").trim();
+    if (!name || !city || !/^(?:\+?212|0)[5-7]\d{8}$/.test(phone.replace(/[\s.-]/g, ""))) {
+      setError("Merci de renseigner votre nom, votre ville et un numéro marocain valide.");
       return;
     }
-
     setError("");
-    const message = [
-      "السلام عليكم، بغيت نطلب المشترك الكهربائي 4 بريزات + 4 USB.",
-      "الثمن: 169 درهم، التوصيل داخل فالثمن.",
-      "",
-      `الاسم: ${name}`,
-      `الهاتف: ${phone}`,
-      `العنوان: ${address}`,
-      "",
-      "الأداء عند الاستلام.",
-    ].join("\n");
+    const message = `Bonjour, je souhaite commander le kit de toilettage Shool:One à 199 DH.\n\nNom : ${name}\nTéléphone : ${phone}\nVille / adresse : ${city}\n\nPaiement à la réception.`;
     window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
   }
 
   return (
-    <main className="min-h-screen bg-[#f7f5ef] text-right text-[#161915]">
-      <div className="bg-[#b31d25] px-4 py-2 text-center text-sm font-bold text-white">🇲🇦 التوصيل لجميع مدن المغرب • خلّص ملي توصلك السلعة</div>
-
-      <header className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5">
-        <a href="#" className="text-xl font-black tracking-tight"><span className="text-[#b31d25]">PREMIUM</span> MAROC</a>
-        <a href="#commander" className="rounded-full bg-[#1f8d49] px-5 py-2.5 text-sm font-extrabold text-white shadow-lg shadow-green-900/15 transition hover:-translate-y-0.5">اطلب دابا</a>
+    <main className="site-shell">
+      <div className="announcement"><span>Livraison partout au Maroc</span><i />Paiement à la réception</div>
+      <header className="nav wrap">
+        <a href="#" className="brand" aria-label="Shool One, accueil"><b>Shool</b><span>:One</span><small>pet care</small></a>
+        <nav aria-label="Navigation principale"><a href="#avantages">Avantages</a><a href="#kit">Le kit</a><a href="#avis">Avis</a></nav>
+        <a className="button button-small" href="#commander">Commander <span>199 DH</span></a>
       </header>
 
-      <section className="mx-auto grid max-w-6xl items-center gap-10 px-5 pb-16 pt-5 lg:grid-cols-[1.05fr_.95fr] lg:pt-10">
-        <div>
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#d9d5c9] bg-white px-4 py-2 text-xs font-extrabold text-[#406c38]">✓ منتوج عملي للاستعمال اليومي</div>
-          <h1 className="max-w-2xl text-4xl font-black leading-[1.15] tracking-[-.035em] sm:text-6xl">بريزات كثر.<br/><span className="text-[#68a72b]">فوضى أقل.</span></h1>
-          <p className="mt-6 max-w-xl text-lg leading-8 text-[#5d615a]">المشترك المتكامل باش تشحن وتستعمل أجهزتك كاملة بسرعة وأمان، بلا صداع ديال الخيوط.</p>
-          <div className="mt-5 flex items-end gap-3"><strong className="text-4xl font-black text-[#b31d25]">169 درهم</strong><span className="pb-1.5 text-sm font-extrabold text-[#1f8d49]">التوصيل مجاني</span></div>
-          <div className="relative mt-7 lg:hidden">
-            <div className="absolute -inset-2 rotate-2 rounded-[1.6rem] bg-[#68a72b]" />
-            <img src="/multiprise-1.png" alt="مشترك كهربائي بأربع بريزات وأربع مداخل USB" className="relative w-full -rotate-1 rounded-[1.4rem] object-cover shadow-2xl" />
-            <div className="absolute -bottom-4 -right-1 rounded-xl bg-white px-4 py-2 shadow-xl"><span className="block text-[10px] font-bold text-[#747870]">طلب ساهل وسريع</span><strong className="text-sm text-[#1f8d49]">عبر واتساب ✓</strong></div>
-          </div>
-          <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-4">
-            {features.map(([number, label]) => <div key={label} className="rounded-2xl border border-[#dedbd1] bg-white p-4 shadow-sm"><strong className="block text-2xl text-[#1f8d49]">{number}</strong><span className="text-xs font-bold text-[#666b63]">{label}</span></div>)}
-          </div>
-          <div className="mt-8 flex flex-wrap items-center gap-4">
-            <a href="#commander" className="rounded-xl bg-[#b31d25] px-7 py-4 font-black text-white shadow-xl shadow-red-950/20 transition hover:-translate-y-1">بغيت نطلب دابا</a>
-            <span className="text-sm font-bold text-[#676b64]">✓ خلّص غير ملي توصلك السلعة</span>
-          </div>
+      <section className="hero wrap">
+        <div className="hero-copy">
+          <div className="eyebrow"><span>★ 4,9/5</span> Adopté par les maîtres attentionnés</div>
+          <h1>Son bien-être.<br/><em>Votre savoir-faire.</em></h1>
+          <p className="hero-lead">Le kit complet pour prendre soin de votre chien ou de votre chat, simplement et sereinement, à la maison.</p>
+          <div className="price-row"><div><span>Seulement</span><strong>199<sup>DH</sup></strong></div><p><Icon name="truck"/> Livraison partout<br/>au Maroc</p></div>
+          <div className="hero-actions"><a className="button" href="#commander">Je commande mon kit <span>→</span></a><span className="micro-proof"><Icon name="shield"/> Paiement sécurisé<br/>à la réception</span></div>
+          <div className="pet-row"><div className="pet-faces"><img src="/grooming-cat.png" alt="Chat pendant son toilettage"/><img src="/grooming-comb.png" alt="Chien pendant son toilettage"/><img src="/grooming-hero.png" alt="Kit de toilettage utilisé sur un chien"/></div><p><b>+ de 500 animaux</b><br/>chouchoutés à la maison</p></div>
         </div>
-        <div className="relative hidden lg:block">
-          <div className="absolute -inset-3 rotate-2 rounded-[2rem] bg-[#68a72b]" />
-          <img src="/multiprise-1.png" alt="مشترك كهربائي بأربع بريزات وأربع مداخل USB" className="relative w-full -rotate-1 rounded-[1.7rem] object-cover shadow-2xl" />
-          <div className="absolute -bottom-5 -right-3 rounded-2xl bg-white px-5 py-3 shadow-xl"><span className="block text-xs font-bold text-[#747870]">طلب ساهل وسريع</span><strong className="text-[#1f8d49]">عبر واتساب ✓</strong></div>
+
+        <div className="hero-visual" onMouseMove={tilt} onMouseLeave={resetTilt}>
+          <div className="orb orb-one"/><div className="orb orb-two"/>
+          <div className="visual-card"><img src="/grooming-kit.png" alt="Kit de toilettage Shool One complet"/><div className="shine"/></div>
+          <div className="float-card float-card-a"><span><Icon name="volume"/></span><div><b>Faible bruit</b><small>Pour rester zen</small></div></div>
+          <div className="float-card float-card-b"><span><Icon name="usb"/></span><div><b>Sans fil</b><small>Recharge USB</small></div></div>
+          <div className="float-card float-card-c"><span><Icon name="check"/></span><div><b>8 accessoires</b><small>Kit ultra complet</small></div></div>
         </div>
       </section>
 
-      <section className="bg-[#182019] py-16 text-white">
-        <div className="mx-auto max-w-6xl px-5">
-          <div className="mx-auto mb-10 max-w-2xl text-center"><p className="text-sm font-black tracking-[.1em] text-[#85c63f]">مصمم لراحتك اليومية</p><h2 className="mt-3 text-3xl font-black sm:text-4xl">حل واحد لجميع أجهزتك</h2></div>
-          <div className="grid gap-5 md:grid-cols-3">
-            {benefits.map(([icon, title, text]) => <article key={title} className="rounded-3xl border border-white/10 bg-white/5 p-6"><span className="text-3xl">{icon}</span><h3 className="mt-5 text-xl font-black">{title}</h3><p className="mt-2 leading-7 text-white/65">{text}</p></article>)}
-          </div>
-        </div>
-      </section>
+      <section className="trust-strip"><div className="wrap"><span><Icon name="truck"/><b>Livraison nationale</b><small>Partout au Maroc</small></span><span><Icon name="wallet"/><b>Paiement à la réception</b><small>Aucun risque</small></span><span><Icon name="shield"/><b>Produit contrôlé</b><small>Avant expédition</small></span></div></section>
 
-      <section className="mx-auto max-w-6xl px-5 py-16"><div className="grid gap-5 md:grid-cols-2"><img src="/multiprise-2.png" alt="تنظيم الأجهزة والخيوط بالمشترك الكهربائي" className="h-full w-full rounded-3xl object-cover shadow-lg" /><img src="/multiprise-3.png" alt="خصائص الأمان والحماية" className="h-full w-full rounded-3xl object-cover shadow-lg" /></div></section>
+      <section id="avantages" className="benefits wrap section"><div className="section-heading"><span>DOUX, PRÉCIS, COMPLET</span><h2>Le toilettage devient<br/><em>un moment de complicité</em></h2><p>Tout ce qu’il faut pour des soins réguliers, sans déplacement et sans stress.</p></div><div className="benefit-grid">{benefits.map((item, index) => <article key={item.title}><div className="number">0{index + 1}</div><span className="feature-icon"><Icon name={item.icon}/></span><h3>{item.title}</h3><p>{item.text}</p></article>)}</div></section>
 
-      <section id="commander" className="scroll-mt-4 bg-[#efe9dc] py-16">
-        <div className="mx-auto grid max-w-5xl overflow-hidden rounded-[2rem] bg-white shadow-2xl lg:grid-cols-[.8fr_1.2fr]">
-          <div className="relative min-h-80 bg-[#20231f] p-6 text-white">
-            <img src="/multiprise-real.jpg" alt="الصورة الحقيقية للمشترك الكهربائي" className="h-72 w-full rounded-2xl object-cover" />
-            <h2 className="mt-6 text-2xl font-black">مشترك 4 بريزات + 4 USB</h2>
-            <div className="mt-3 text-3xl font-black text-[#85c63f]">169 درهم <span className="text-sm text-white/70">التوصيل مجاني</span></div>
-            <ul className="mt-4 space-y-2 text-sm text-white/75"><li>✓ كنراجعو المنتوج قبل الإرسال</li><li>✓ التوصيل لجميع مدن المغرب</li><li>✓ الأداء عند الاستلام</li></ul>
-          </div>
-          <div className="p-6 sm:p-10">
-            <p className="font-black tracking-widest text-[#1f8d49]">اطلب دابا</p>
-            <h2 className="mt-2 text-3xl font-black">عمر المعلومات ديالك</h2>
-            <p className="mt-3 inline-flex rounded-full bg-[#e9f5e7] px-4 py-2 font-black text-[#1f8d49]">المجموع: 169 درهم • التوصيل مجاني</p>
-            <p className="mt-2 text-[#686c65]">من بعد التأكيد، غادي يتحل واتساب والطلب ديالك واجد غير صيفطو.</p>
-            <form onSubmit={submitOrder} className="mt-7 space-y-4" noValidate>
-              <label className="block"><span className="mb-2 block text-sm font-extrabold">الاسم الكامل</span><input name="name" autoComplete="name" className="w-full rounded-xl border-[#d9d5ca] bg-[#faf9f6] px-4 py-3.5 text-right focus:border-[#1f8d49] focus:ring-[#1f8d49]" placeholder="مثال: يوسف العلوي" /></label>
-              <label className="block"><span className="mb-2 block text-sm font-extrabold">رقم الهاتف</span><input name="phone" type="tel" inputMode="tel" autoComplete="tel" dir="ltr" className="w-full rounded-xl border-[#d9d5ca] bg-[#faf9f6] px-4 py-3.5 text-right focus:border-[#1f8d49] focus:ring-[#1f8d49]" placeholder="06 12 34 56 78" /></label>
-              <label className="block"><span className="mb-2 block text-sm font-extrabold">العنوان الكامل</span><textarea name="address" autoComplete="street-address" rows={3} className="w-full resize-none rounded-xl border-[#d9d5ca] bg-[#faf9f6] px-4 py-3.5 text-right focus:border-[#1f8d49] focus:ring-[#1f8d49]" placeholder="المدينة، الحي، الزنقة..." /></label>
-              {error && <p role="alert" className="rounded-lg bg-red-50 p-3 text-sm font-bold text-[#b31d25]">{error}</p>}
-              <button type="submit" className="w-full rounded-xl bg-[#1f8d49] px-6 py-4 text-lg font-black text-white shadow-lg shadow-green-950/20 transition hover:bg-[#18763b]">أكد الطلب عبر واتساب</button>
-              <p className="text-center text-xs text-[#767a73]">🔒 معلوماتك غادي نستعملوها غير باش نجهزو الطلب.</p>
-            </form>
-          </div>
-        </div>
-      </section>
+      <section id="kit" className="kit-section section"><div className="wrap kit-grid"><div className="kit-photo"><img src="/grooming-real.webp" alt="Photo réelle du kit complet et de sa boîte"/><span>Photo réelle du produit</span></div><div className="kit-copy"><span className="section-kicker">DANS VOTRE KIT</span><h2>Tout est là.<br/><em>Rien ne manque.</em></h2><p>Un ensemble compact et bien pensé pour les petites zones, les griffes et l’entretien du pelage.</p><ul>{kit.map(item => <li key={item}><span><Icon name="check"/></span>{item}</li>)}</ul><a className="text-link" href="#commander">Obtenir le kit complet <span>→</span></a></div></div></section>
 
-      <section className="mx-auto max-w-6xl px-5 py-16 text-center"><img src="/multiprise-4.png" alt="استعمالات المشترك فالدار والمكتب والكوزينة والألعاب" className="mx-auto w-full max-w-3xl rounded-3xl shadow-xl" /></section>
-      <footer className="border-t border-black/10 px-5 py-8 text-center text-sm text-[#6c7069]">© 2026 Premium Maroc • التوصيل لجميع مدن المغرب • الأداء عند الاستلام</footer>
-      <a href="#commander" className="fixed bottom-4 left-4 right-4 z-50 rounded-xl bg-[#b31d25] py-3.5 text-center font-black text-white shadow-2xl sm:hidden">اطلب دابا • 169 درهم بالتوصيل</a>
+      <section className="story section wrap"><div className="story-copy"><span className="section-kicker">UN GESTE QUI RASSURE</span><h2>Précis pour vous.<br/><em>Doux pour eux.</em></h2><p>Son format fin permet d’atteindre facilement les pattes, les oreilles et les petites zones. Le moteur discret aide votre compagnon à rester calme pendant le soin.</p><div><span>✓ Chiens</span><span>✓ Chats</span><span>✓ Petites zones</span></div></div><div className="story-gallery"><img src="/grooming-ear.png" alt="Tonte délicate près de l’oreille d’un chien"/><img src="/grooming-face.png" alt="Soin de précision du visage d’un chien"/></div></section>
+
+      <section id="avis" className="quote-section"><div className="wrap"><p className="quote-mark">“</p><blockquote>La tondeuse est vraiment silencieuse. Mon petit chien reste calme et j’ai enfin tout ce qu’il faut dans une seule pochette.</blockquote><div className="stars">★★★★★</div><p><b>Samira A.</b> · Casablanca</p></div></section>
+
+      <section id="commander" className="order-section section"><div className="order-card wrap"><div className="order-summary"><span className="section-kicker">OFFRE DU MOMENT</span><h2>Votre kit complet<br/><em>à 199 DH</em></h2><img src="/grooming-kit.png" alt="Tous les accessoires inclus dans le kit"/><ul><li><Icon name="check"/>8 accessoires inclus</li><li><Icon name="check"/>Livraison partout au Maroc</li><li><Icon name="check"/>Paiement à la réception</li></ul></div><div className="order-form"><div className="form-head"><span>Commande rapide</span><b>199 DH</b></div><h3>Où devons-nous livrer ?</h3><p>Remplissez ces informations. Votre commande sera préparée via WhatsApp.</p><form onSubmit={submitOrder} noValidate><label>Nom complet<input name="name" autoComplete="name" placeholder="Votre nom"/></label><label>Téléphone<input name="phone" type="tel" inputMode="tel" autoComplete="tel" placeholder="06 12 34 56 78"/></label><label>Ville et adresse<textarea name="city" rows={3} autoComplete="street-address" placeholder="Ville, quartier, adresse..."/></label>{error && <p className="form-error" role="alert">{error}</p>}<button className="button" type="submit">Commander via WhatsApp <span>→</span></button><small><Icon name="shield"/> Vos informations servent uniquement à traiter votre commande.</small></form></div></div></section>
+
+      <footer><div className="wrap"><a href="#" className="brand"><b>Shool</b><span>:One</span><small>pet care</small></a><p>Le soin professionnel, avec la douceur de la maison.</p><span>© 2026 Shool:One · Maroc</span></div></footer>
+      <a className="mobile-order" href="#commander"><span>Commander maintenant</span><b>199 DH</b></a>
     </main>
   );
 }
