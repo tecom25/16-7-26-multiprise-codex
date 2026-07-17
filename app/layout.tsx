@@ -1,8 +1,8 @@
 import "./css/style.css";
 
 export const metadata = {
-  title: "Kit de toilettage Shool:One | 199 DH",
-  description: "Le kit complet de toilettage pour chiens et chats : tondeuse silencieuse rechargeable, coupe-griffes, peigne et accessoires. Livraison partout au Maroc.",
+  title: "MoroBest | Morocco's Best Products",
+  description: "Découvrez MoroBest, votre destination e-commerce au Maroc. Produits sélectionnés, livraison à domicile partout au Maroc et paiement à la réception.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

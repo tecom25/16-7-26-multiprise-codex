@@ -1,106 +1,91 @@
 "use client";
 
-import { FormEvent, MouseEvent, useState } from "react";
+import { MouseEvent } from "react";
 
-const whatsappNumber = "212675409754";
-
-const Icon = ({ name }: { name: "volume" | "usb" | "shield" | "feather" | "truck" | "wallet" | "check" }) => {
-  const paths = {
-    volume: <><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="m19 9-6 6m0-6 6 6"/></>,
-    usb: <><path d="M12 3v12"/><path d="m8 7 4-4 4 4"/><path d="M8 11H5v4a3 3 0 0 0 3 3h4"/><path d="M16 13v5h-4"/><circle cx="16" cy="11" r="2"/><circle cx="12" cy="20" r="2"/></>,
-    shield: <><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></>,
-    feather: <><path d="M20.2 4.8c-4.5-4.5-12.2-.8-14.4 5.5L3 21l10.7-2.8c6.3-2.2 10-9.9 5.5-14.4Z"/><path d="M6 18 15 9"/></>,
-    truck: <><path d="M3 6h11v10H3z"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></>,
-    wallet: <><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M16 12h5"/><path d="M3 9h18"/></>,
-    check: <path d="m5 12 4 4L19 6"/>,
-  };
-  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]}</svg>;
-};
-
-const benefits = [
-  { icon: "volume" as const, title: "Moteur discret", text: "Un bruit réduit pour toiletter sans stresser votre animal." },
-  { icon: "usb" as const, title: "Rechargeable USB", text: "Sans fil, légère et toujours prête à vous accompagner." },
-  { icon: "shield" as const, title: "Lame de précision", text: "Pensée pour les petites zones et les finitions délicates." },
-  { icon: "feather" as const, title: "Prise en main facile", text: "Un format ergonomique pour garder le contrôle du geste." },
+const steps = [
+  ["01", "Vous voyez l’annonce", "Une offre claire apparaît sur vos réseaux sociaux."],
+  ["02", "Vous cliquez", "Le lien vous mène vers la page dédiée au produit."],
+  ["03", "Vous choisissez", "Vous découvrez les détails et sélectionnez votre offre."],
+  ["04", "Vous commandez", "Un formulaire simple suffit, sans paiement en ligne."],
+  ["05", "Nous confirmons", "Notre équipe vous contacte pour valider la commande."],
+  ["06", "Nous préparons", "Contrôle, emballage et étiquetage avec soin."],
+  ["07", "Vous recevez", "Le livreur vous remet le colis partout au Maroc."],
 ];
 
-const kit = ["Tondeuse de précision", "Coupe-griffes", "Peigne métallique", "Lime à griffes", "Brosse de nettoyage", "Flacon applicateur", "Câble USB", "Pochette de rangement"];
+const MiniIcon = ({ type }: { type: "box" | "truck" | "cash" | "spark" }) => {
+  const drawings = {
+    box: <><path d="m4 7 8-4 8 4-8 4-8-4Z"/><path d="M4 7v10l8 4 8-4V7M12 11v10"/></>,
+    truck: <><path d="M3 6h11v10H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></>,
+    cash: <><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M7 9H6v1M17 15h1v-1"/></>,
+    spark: <><path d="m12 3 1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3Z"/><path d="m19 15 .7 2.3L22 18l-2.3.7L19 21l-.7-2.3L16 18l2.3-.7L19 15Z"/></>,
+  };
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{drawings[type]}</svg>;
+};
 
-export default function Home() {
-  const [error, setError] = useState("");
-
-  function tilt(event: MouseEvent<HTMLDivElement>) {
-    const box = event.currentTarget.getBoundingClientRect();
-    const x = (event.clientX - box.left) / box.width - 0.5;
-    const y = (event.clientY - box.top) / box.height - 0.5;
-    event.currentTarget.style.setProperty("--rx", `${-y * 10}deg`);
-    event.currentTarget.style.setProperty("--ry", `${x * 12}deg`);
-    event.currentTarget.style.setProperty("--mx", `${(x + 0.5) * 100}%`);
-    event.currentTarget.style.setProperty("--my", `${(y + 0.5) * 100}%`);
+export default function MoroccoBestHome() {
+  function moveStage(event: MouseEvent<HTMLDivElement>) {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width - .5;
+    const y = (event.clientY - rect.top) / rect.height - .5;
+    event.currentTarget.style.setProperty("--mbx", `${x * 10}deg`);
+    event.currentTarget.style.setProperty("--mby", `${-y * 8}deg`);
   }
 
-  function resetTilt(event: MouseEvent<HTMLDivElement>) {
-    event.currentTarget.style.setProperty("--rx", "0deg");
-    event.currentTarget.style.setProperty("--ry", "0deg");
+  function resetStage(event: MouseEvent<HTMLDivElement>) {
+    event.currentTarget.style.setProperty("--mbx", "0deg");
+    event.currentTarget.style.setProperty("--mby", "0deg");
   }
 
-  function submitOrder(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    const name = String(form.get("name") || "").trim();
-    const phone = String(form.get("phone") || "").trim();
-    const city = String(form.get("city") || "").trim();
-    if (!name || !city || !/^(?:\+?212|0)[5-7]\d{8}$/.test(phone.replace(/[\s.-]/g, ""))) {
-      setError("Merci de renseigner votre nom, votre ville et un numéro marocain valide.");
-      return;
-    }
-    setError("");
-    const message = `Bonjour, je souhaite commander le kit de toilettage Shool:One à 199 DH.\n\nNom : ${name}\nTéléphone : ${phone}\nVille / adresse : ${city}\n\nPaiement à la réception.`;
-    window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
-  }
+  return <main className="mb-site">
+    <div className="mb-topline">Livraison partout au Maroc <span/> Paiement à la réception</div>
+    <header className="mb-nav mb-wrap">
+      <a className="mb-logo" href="#"><b>Moro</b>Best<i>.</i><small>Morocco&apos;s best products</small></a>
+      <nav><a href="#mission">Notre mission</a><a href="#parcours">Comment ça marche</a><a href="#engagements">Nos engagements</a></nav>
+      <a href="#parcours" className="mb-nav-cta">Découvrir le parcours <b>↘</b></a>
+    </header>
 
-  return (
-    <main className="site-shell">
-      <div className="announcement"><span>Livraison partout au Maroc</span><i />Paiement à la réception</div>
-      <header className="nav wrap">
-        <a href="#" className="brand" aria-label="Shool One, accueil"><b>Shool</b><span>:One</span><small>pet care</small></a>
-        <nav aria-label="Navigation principale"><a href="#avantages">Avantages</a><a href="#kit">Le kit</a><a href="#avis">Avis</a></nav>
-        <a className="button button-small" href="#commander">Commander <span>199 DH</span></a>
-      </header>
+    <section className="mb-hero mb-wrap">
+      <div className="mb-hero-copy">
+        <div className="mb-kicker"><i/> Une nouvelle façon d&apos;acheter au Maroc</div>
+        <h1>Les bons produits.<br/><em>Livrés chez vous.</em></h1>
+        <p>MoroBest sélectionne des produits utiles et désirables, puis simplifie chaque étape jusqu&apos;à votre porte.</p>
+        <div className="mb-actions"><a href="#parcours" className="mb-primary">Voir comment ça marche <span>→</span></a><div><b>100%</b><small>Paiement à la livraison</small></div></div>
+        <div className="mb-proof"><span><MiniIcon type="truck"/>Tout le Maroc</span><span><MiniIcon type="cash"/>Sans paiement en ligne</span><span><MiniIcon type="box"/>Colis contrôlés</span></div>
+      </div>
 
-      <section className="hero wrap">
-        <div className="hero-copy">
-          <div className="eyebrow"><span>★ 4,9/5</span> Adopté par les maîtres attentionnés</div>
-          <h1>Son bien-être.<br/><em>Votre savoir-faire.</em></h1>
-          <p className="hero-lead">Le kit complet pour prendre soin de votre chien ou de votre chat, simplement et sereinement, à la maison.</p>
-          <div className="price-row"><div><span>Seulement</span><strong>199<sup>DH</sup></strong></div><p><Icon name="truck"/> Livraison partout<br/>au Maroc</p></div>
-          <div className="hero-actions"><a className="button" href="#commander">Je commande mon kit <span>→</span></a><span className="micro-proof"><Icon name="shield"/> Paiement sécurisé<br/>à la réception</span></div>
-          <div className="pet-row"><div className="pet-faces"><img src="/grooming-cat.png" alt="Chat pendant son toilettage"/><img src="/grooming-comb.png" alt="Chien pendant son toilettage"/><img src="/grooming-hero.png" alt="Kit de toilettage utilisé sur un chien"/></div><p><b>+ de 500 animaux</b><br/>chouchoutés à la maison</p></div>
+      <div className="mb-stage" onMouseMove={moveStage} onMouseLeave={resetStage}>
+        <div className="mb-glow"/><div className="mb-ring mb-ring-one"/><div className="mb-ring mb-ring-two"/>
+        <div className="mb-phone">
+          <div className="mb-phone-top"><span>9:41</span><i/></div>
+          <div className="mb-social"><span>morobest</span><b>•••</b></div>
+          <div className="mb-product-scene"><div className="mb-pedestal"/><div className="mb-box-shape"><i>MB</i></div><span className="mb-spark s1">✦</span><span className="mb-spark s2">✦</span></div>
+          <div className="mb-post-copy"><b>Votre prochain coup de cœur.</b><span>Simple. Rapide. Livré.</span><button>Découvrir</button></div>
         </div>
+        <div className="mb-float mb-float-a"><span><MiniIcon type="spark"/></span><p><b>Sélection utile</b><small>Pour le quotidien</small></p></div>
+        <div className="mb-float mb-float-b"><span><MiniIcon type="truck"/></span><p><b>Livraison rapide</b><small>Partout au Maroc</small></p></div>
+        <div className="mb-float mb-float-c"><span>✓</span><p><b>Commande confirmée</b><small>Par notre équipe</small></p></div>
+      </div>
+    </section>
 
-        <div className="hero-visual" onMouseMove={tilt} onMouseLeave={resetTilt}>
-          <div className="orb orb-one"/><div className="orb orb-two"/>
-          <div className="visual-card"><img src="/grooming-kit.png" alt="Kit de toilettage Shool One complet"/><div className="shine"/></div>
-          <div className="float-card float-card-a"><span><Icon name="volume"/></span><div><b>Faible bruit</b><small>Pour rester zen</small></div></div>
-          <div className="float-card float-card-b"><span><Icon name="usb"/></span><div><b>Sans fil</b><small>Recharge USB</small></div></div>
-          <div className="float-card float-card-c"><span><Icon name="check"/></span><div><b>8 accessoires</b><small>Kit ultra complet</small></div></div>
-        </div>
-      </section>
+    <section className="mb-marquee"><div>MAISON <i>✦</i> BEAUTÉ <i>✦</i> BIEN-ÊTRE <i>✦</i> ACCESSOIRES <i>✦</i> HIGH-TECH <i>✦</i> ANIMAUX <i>✦</i> QUOTIDIEN</div></section>
 
-      <section className="trust-strip"><div className="wrap"><span><Icon name="truck"/><b>Livraison nationale</b><small>Partout au Maroc</small></span><span><Icon name="wallet"/><b>Paiement à la réception</b><small>Aucun risque</small></span><span><Icon name="shield"/><b>Produit contrôlé</b><small>Avant expédition</small></span></div></section>
+    <section id="mission" className="mb-mission mb-wrap">
+      <div className="mb-section-label">01 — NOTRE MISSION</div>
+      <div className="mb-mission-copy"><h2>Le e-commerce<br/><em>en toute confiance.</em></h2><p>Nous connectons les Marocains à une sélection variée de produits, avec une expérience claire, humaine et rassurante. Pas de carte bancaire, pas de complication : vous commandez, nous confirmons et vous payez à la réception.</p></div>
+      <div className="mb-stats"><article><strong>12</strong><span>régions<br/>desservies</span></article><article><strong>COD</strong><span>paiement<br/>à la livraison</span></article><article><strong>7/7</strong><span>suivi des<br/>commandes</span></article></div>
+    </section>
 
-      <section id="avantages" className="benefits wrap section"><div className="section-heading"><span>DOUX, PRÉCIS, COMPLET</span><h2>Le toilettage devient<br/><em>un moment de complicité</em></h2><p>Tout ce qu’il faut pour des soins réguliers, sans déplacement et sans stress.</p></div><div className="benefit-grid">{benefits.map((item, index) => <article key={item.title}><div className="number">0{index + 1}</div><span className="feature-icon"><Icon name={item.icon}/></span><h3>{item.title}</h3><p>{item.text}</p></article>)}</div></section>
+    <section id="parcours" className="mb-process">
+      <div className="mb-wrap"><div className="mb-process-head"><div><span>02 — VOTRE PARCOURS</span><h2>Du premier clic<br/><em>jusqu&apos;à votre porte.</em></h2></div><p>Chaque commande suit un parcours précis. Notre équipe veille sur chaque étape pour que votre expérience reste simple et rapide.</p></div>
+        <div className="mb-timeline">{steps.map(([number,title,text],index)=><article key={number}><div className="mb-step-line"><b>{number}</b><i/><span>{index===steps.length-1?"✓":""}</span></div><h3>{title}</h3><p>{text}</p></article>)}</div>
+      </div>
+    </section>
 
-      <section id="kit" className="kit-section section"><div className="wrap kit-grid"><div className="kit-photo"><img src="/grooming-real.webp" alt="Photo réelle du kit complet et de sa boîte"/><span>Photo réelle du produit</span></div><div className="kit-copy"><span className="section-kicker">DANS VOTRE KIT</span><h2>Tout est là.<br/><em>Rien ne manque.</em></h2><p>Un ensemble compact et bien pensé pour les petites zones, les griffes et l’entretien du pelage.</p><ul>{kit.map(item => <li key={item}><span><Icon name="check"/></span>{item}</li>)}</ul><a className="text-link" href="#commander">Obtenir le kit complet <span>→</span></a></div></div></section>
+    <section id="engagements" className="mb-values mb-wrap">
+      <div className="mb-section-label">03 — NOS ENGAGEMENTS</div><div className="mb-values-grid"><h2>Pourquoi choisir<br/><em>MoroBest ?</em></h2><article><span><MiniIcon type="box"/></span><h3>Produits sélectionnés</h3><p>Des offres choisies pour leur utilité, leur tendance et leur rapport qualité-prix.</p></article><article><span><MiniIcon type="truck"/></span><h3>Livraison nationale</h3><p>Une logistique organisée pour vous servir, où que vous soyez au Maroc.</p></article><article><span><MiniIcon type="cash"/></span><h3>Aucun risque</h3><p>Vous réglez votre commande uniquement lorsqu&apos;elle arrive entre vos mains.</p></article></div>
+    </section>
 
-      <section className="story section wrap"><div className="story-copy"><span className="section-kicker">UN GESTE QUI RASSURE</span><h2>Précis pour vous.<br/><em>Doux pour eux.</em></h2><p>Son format fin permet d’atteindre facilement les pattes, les oreilles et les petites zones. Le moteur discret aide votre compagnon à rester calme pendant le soin.</p><div><span>✓ Chiens</span><span>✓ Chats</span><span>✓ Petites zones</span></div></div><div className="story-gallery"><img src="/grooming-ear.png" alt="Tonte délicate près de l’oreille d’un chien"/><img src="/grooming-face.png" alt="Soin de précision du visage d’un chien"/></div></section>
-
-      <section id="avis" className="quote-section"><div className="wrap"><p className="quote-mark">“</p><blockquote>La tondeuse est vraiment silencieuse. Mon petit chien reste calme et j’ai enfin tout ce qu’il faut dans une seule pochette.</blockquote><div className="stars">★★★★★</div><p><b>Samira A.</b> · Casablanca</p></div></section>
-
-      <section id="commander" className="order-section section"><div className="order-card wrap"><div className="order-summary"><span className="section-kicker">OFFRE DU MOMENT</span><h2>Votre kit complet<br/><em>à 199 DH</em></h2><img src="/grooming-kit.png" alt="Tous les accessoires inclus dans le kit"/><ul><li><Icon name="check"/>8 accessoires inclus</li><li><Icon name="check"/>Livraison partout au Maroc</li><li><Icon name="check"/>Paiement à la réception</li></ul></div><div className="order-form"><div className="form-head"><span>Commande rapide</span><b>199 DH</b></div><h3>Où devons-nous livrer ?</h3><p>Remplissez ces informations. Votre commande sera préparée via WhatsApp.</p><form onSubmit={submitOrder} noValidate><label>Nom complet<input name="name" autoComplete="name" placeholder="Votre nom"/></label><label>Téléphone<input name="phone" type="tel" inputMode="tel" autoComplete="tel" placeholder="06 12 34 56 78"/></label><label>Ville et adresse<textarea name="city" rows={3} autoComplete="street-address" placeholder="Ville, quartier, adresse..."/></label>{error && <p className="form-error" role="alert">{error}</p>}<button className="button" type="submit">Commander via WhatsApp <span>→</span></button><small><Icon name="shield"/> Vos informations servent uniquement à traiter votre commande.</small></form></div></div></section>
-
-      <footer><div className="wrap"><a href="#" className="brand"><b>Shool</b><span>:One</span><small>pet care</small></a><p>Le soin professionnel, avec la douceur de la maison.</p><span>© 2026 Shool:One · Maroc</span></div></footer>
-      <a className="mobile-order" href="#commander"><span>Commander maintenant</span><b>199 DH</b></a>
-    </main>
-  );
+    <section className="mb-final"><div className="mb-wrap"><div><span>BIENVENUE CHEZ MOROBEST</span><h2>Le meilleur arrive<br/><em>chez vous.</em></h2></div><div className="mb-final-orbit"><span>M</span><i/><i/><i/></div></div></section>
+    <footer><div className="mb-wrap"><a className="mb-logo" href="#"><b>Moro</b>Best<i>.</i></a><p>Morocco&apos;s best products, livrés chez vous.</p><span>© 2026 MoroBest · Maroc</span></div></footer>
+  </main>;
 }
