@@ -36,14 +36,15 @@ export default function MultipriseLandingPage() {
 
     setError("");
     const message = [
-      "Bonjour MoroBest, je souhaite commander la multiprise 4 prises + 4 ports USB.",
-      "السلام عليكم، بغيت نطلب المشترك الكهربائي ديال 4 مقابس و4 منافذ USB.",
+      "Bonjour MoroBest, je souhaite commander la multiprise 4 prises + 4 ports USB à 169 DH, livraison incluse.",
+      "السلام عليكم، بغيت نطلب المشترك الكهربائي ديال 4 مقابس و4 منافذ USB بثمن 169 درهم، التوصيل داخل فالثمن.",
       "",
       `Nom / الاسم: ${name}`,
       `Téléphone / الهاتف: ${phone}`,
       `Ville et adresse / المدينة والعنوان: ${city}`,
       `Quantité / الكمية: ${quantity}`,
       "",
+      "Total : 169 DH par unité, livraison incluse / 169 درهم للوحدة والتوصيل داخل فالثمن.",
       "Paiement à la réception / الدفع عند الاستلام.",
     ].join("\n");
     window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
@@ -51,12 +52,12 @@ export default function MultipriseLandingPage() {
 
   return (
     <main className="mp-site">
-      <div className="mp-announcement"><span>Livraison partout au Maroc</span><i /><b dir="rtl">التوصيل لجميع مدن المغرب</b><i /><span>Paiement à la réception</span><i /><b dir="rtl">الدفع عند الاستلام</b></div>
+      <div className="mp-announcement"><span>169 DH · Livraison incluse</span><i /><b dir="rtl">169 درهم · التوصيل داخل فالثمن</b><i /><span>Paiement à la réception</span><i /><b dir="rtl">الدفع عند الاستلام</b></div>
 
       <header className="mp-nav mp-wrap">
         <a className="mp-brand" href="#top" aria-label="MoroBest accueil"><strong>Moro</strong>Best<span>.</span><small>Smart living</small></a>
         <nav aria-label="Navigation principale"><a href="#avantages">Avantages <small dir="rtl">المميزات</small></a><a href="#details">Détails <small dir="rtl">التفاصيل</small></a><a href="#commander">Commander <small dir="rtl">اطلب الآن</small></a></nav>
-        <a className="mp-nav-cta" href="#commander">Je commande <span dir="rtl">اطلب الآن</span></a>
+        <a className="mp-nav-cta" href="#commander">Je commande · 169 DH <span dir="rtl">اطلب الآن</span></a>
       </header>
 
       <section id="top" className="mp-hero mp-wrap">
@@ -65,6 +66,7 @@ export default function MultipriseLandingPage() {
           <h1>Branchez tout.<br /><em>Gardez le contrôle.</em></h1>
           <p className="mp-ar-lead" dir="rtl">شبّك أجهزتك كاملة، بلا فوضى وبلا ما تبقى تقلب على بلاصة فارغة.</p>
           <p className="mp-lead">Une multiprise compacte qui réunit <strong>4 prises européennes, 2 USB-A et 2 USB-C</strong>, avec un interrupteur général bien visible.</p>
+          <div className="mp-price"><strong>169<sup>DH</sup></strong><span>Livraison incluse<small dir="rtl">التوصيل داخل فالثمن</small></span></div>
           <div className="mp-hero-actions"><a className="mp-primary" href="#commander">Commander maintenant <span>→</span><small dir="rtl">اطلب دابا</small></a><a className="mp-secondary" href="#details">Voir le produit <span>↓</span></a></div>
           <div className="mp-mini-proof"><span>✓ Livraison nationale</span><span>✓ Paiement à la réception</span><span>✓ Confirmation par WhatsApp</span></div>
         </div>
@@ -98,11 +100,11 @@ export default function MultipriseLandingPage() {
         <div className="mp-spaces-grid"><img src="/multiprise-4.png" alt="Multiprise utilisée à la maison, au bureau, dans la cuisine et pour un espace gaming" /><div>{useCases.map(([title, ar, text], index) => <article key={title}><span>0{index + 1}</span><h3>{title}<small dir="rtl">{ar}</small></h3><p>{text}</p></article>)}</div></div>
       </section>
 
-      <section className="mp-reassurance"><div className="mp-wrap"><article><b>🚚</b><h3>Livraison au Maroc<small dir="rtl">التوصيل للمغرب كامل</small></h3></article><article><b>💵</b><h3>Paiement à la réception<small dir="rtl">الدفع عند الاستلام</small></h3></article><article><b>💬</b><h3>Commande via WhatsApp<small dir="rtl">الطلب عبر واتساب</small></h3></article></div></section>
+      <section className="mp-reassurance"><div className="mp-wrap"><article><b>🚚</b><h3>Livraison incluse<small dir="rtl">التوصيل داخل فالثمن</small></h3></article><article><b>💵</b><h3>Paiement à la réception<small dir="rtl">الدفع عند الاستلام</small></h3></article><article><b>💬</b><h3>Commande via WhatsApp<small dir="rtl">الطلب عبر واتساب</small></h3></article></div></section>
 
       <section id="commander" className="mp-order mp-section"><div className="mp-wrap mp-order-card">
-        <div className="mp-order-summary"><span>COMMANDE RAPIDE</span><h2>Prêt à simplifier vos branchements ?<small dir="rtl">واجد ترتّب أجهزتك؟</small></h2><img src="/multiprise-1.png" alt="Résumé des caractéristiques de la multiprise" /><p>Votre demande est envoyée directement à MoroBest sur WhatsApp. Notre équipe vous contacte pour confirmer les détails.</p></div>
-        <form className="mp-form" onSubmit={submitOrder} noValidate><div><span>FORMULAIRE WHATSAPP</span><b>4 prises + 4 USB</b></div><h3>Où devons-nous livrer ?<small dir="rtl">فين نوصّلو ليك؟</small></h3>
+        <div className="mp-order-summary"><span>169 DH · LIVRAISON INCLUSE</span><h2>Prêt à simplifier vos branchements ?<small dir="rtl">واجد ترتّب أجهزتك؟</small></h2><img src="/multiprise-1.png" alt="Résumé des caractéristiques de la multiprise" /><p>Votre demande est envoyée directement à MoroBest sur WhatsApp. Notre équipe vous contacte pour confirmer les détails.</p></div>
+        <form className="mp-form" onSubmit={submitOrder} noValidate><div><span>FORMULAIRE WHATSAPP</span><b>169 DH · Livraison incluse</b></div><h3>Où devons-nous livrer ?<small dir="rtl">فين نوصّلو ليك؟</small></h3>
           <label>Nom complet · الاسم الكامل<input name="name" autoComplete="name" placeholder="Votre nom / الاسم ديالك" /></label><label>Téléphone · رقم الهاتف<input name="phone" type="tel" inputMode="tel" autoComplete="tel" placeholder="06 12 34 56 78" /></label><label>Ville et adresse · المدينة والعنوان<textarea name="city" rows={3} autoComplete="street-address" placeholder="Ville, quartier, adresse / المدينة، الحي، العنوان" /></label><label>Quantité · الكمية<select name="quantity" defaultValue="1"><option value="1">1 multiprise</option><option value="2">2 multiprises</option><option value="3">3 multiprises</option><option value="4">4 multiprises</option></select></label>
           {error && <p className="mp-form-error" role="alert">{error}</p>}<button type="submit">Envoyer sur WhatsApp <span>→</span><small dir="rtl">صيفط الطلب فواتساب</small></button><p className="mp-privacy">🔒 Vos informations servent uniquement à confirmer cette commande.</p>
         </form>
@@ -110,7 +112,7 @@ export default function MultipriseLandingPage() {
 
       <footer className="mp-footer"><div className="mp-wrap"><a className="mp-brand" href="#top"><strong>Moro</strong>Best<span>.</span></a><p>Les bons produits, livrés chez vous.<small dir="rtl">أحسن المنتجات حتى لباب دارك.</small></p><span>© 2026 MoroBest · Maroc</span></div></footer>
 
-      <div className="mp-floating-actions"><a className="mp-float-whatsapp" href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Bonjour MoroBest, je souhaite avoir plus d'informations sur la multiprise 4 prises + 4 USB.")}`} target="_blank" rel="noreferrer" aria-label="Contacter MoroBest sur WhatsApp"><span>●</span><b>WhatsApp</b></a><a className="mp-float-order" href="#commander"><b>Commander</b><small dir="rtl">اطلب الآن</small></a></div>
+      <div className="mp-floating-actions"><a className="mp-float-whatsapp" href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Bonjour MoroBest, je souhaite avoir plus d'informations sur la multiprise à 169 DH, livraison incluse.")}`} target="_blank" rel="noreferrer" aria-label="Contacter MoroBest sur WhatsApp"><span>●</span><b>WhatsApp</b></a><a className="mp-float-order" href="#commander"><b>Commander · 169 DH</b><small dir="rtl">اطلب الآن</small></a></div>
     </main>
   );
 }
