@@ -1,6 +1,6 @@
 "use client";
 
-import { MouseEvent, useState } from "react";
+import { MouseEvent } from "react";
 
 const steps = [
   ["01", "Vous voyez l’annonce", "Une offre claire apparaît sur vos réseaux sociaux.", "كتشوف الإشهار", "العرض كيبان ليك واضح فمواقع التواصل."],
@@ -25,8 +25,7 @@ const MiniIcon = ({ type }: { type: "box" | "truck" | "cash" | "spark" }) => {
 };
 
 export default function MoroccoBestHome() {
-  const [lang, setLang] = useState<"fr" | "ar">("ar");
-  const ar = lang === "ar";
+  const ar = true;
   function moveStage(event: MouseEvent<HTMLDivElement>) {
     const rect = event.currentTarget.getBoundingClientRect();
     const x = (event.clientX - rect.left) / rect.width - .5;
@@ -44,15 +43,15 @@ export default function MoroccoBestHome() {
     <div className="mb-topline">{ar ? "التوصيل لجميع مدن المغرب" : "Livraison partout au Maroc"} <span/> {ar ? "الخلص عند الاستلام" : "Paiement à la réception"}</div>
     <header className="mb-nav mb-wrap">
       <a className="mb-logo" href="#"><b>Moro</b>Best<i>.</i><small>Morocco&apos;s best products</small></a>
-      <nav><a href="#mission">{ar ? "المهمة ديالنا" : "Notre mission"}</a><a href="#parcours">{ar ? "كيفاش كتدوز الطلبية" : "Comment ça marche"}</a><a href="#maroc">{ar ? "التوصيل فالمغرب" : "Livraison au Maroc"}</a></nav>
-      <button className="mb-lang" onClick={() => setLang(ar ? "fr" : "ar")}>{ar ? "FR" : "العربية"}</button>
+      <nav><a href="#mission">المهمة ديالنا<small>Notre mission</small></a><a href="#parcours">كيفاش كتدوز الطلبية<small>Comment ça marche</small></a><a href="#maroc">التوصيل فالمغرب<small>Livraison au Maroc</small></a></nav>
+      <span className="mb-bilingual">العربية <i/> Français</span>
     </header>
 
     <section className="mb-hero mb-wrap">
       <div className="mb-hero-copy">
         <div className="mb-kicker"><i/> {ar ? "طريقة جديدة وساهلة للتسوق فالمغرب" : "Une nouvelle façon d'acheter au Maroc"}</div>
-        <h1>{ar ? <>منتوجات زوينة.<br/><em>كتوصلك حتى للدار.</em></> : <>Les bons produits.<br/><em>Livrés chez vous.</em></>}</h1>
-        <p>{ar ? "MoroBest كاتختار ليك منتوجات مفيدة ومطلوبة، وكتسهّل عليك الطلب من أول كليك حتى يوصلك الكولي لباب دارك." : "MoroBest sélectionne des produits utiles et désirables, puis simplifie chaque étape jusqu'à votre porte."}</p>
+        <h1>منتوجات زوينة.<br/><em>كتوصلك حتى للدار.</em><small>Les bons produits. Livrés chez vous.</small></h1>
+        <p>MoroBest كاتختار ليك منتوجات مفيدة ومطلوبة، وكتسهّل عليك الطلب من أول كليك حتى يوصلك الكولي لباب دارك.<span className="mb-fr">MoroBest sélectionne des produits utiles et simplifie chaque étape, du premier clic jusqu’à votre porte.</span></p>
         <div className="mb-actions"><a href="#parcours" className="mb-primary">{ar ? "شوف كيفاش كتدوز الطلبية" : "Voir comment ça marche"} <span>→</span></a><div><b>100%</b><small>{ar ? "الخلص ملي يوصلك الكولي" : "Paiement à la livraison"}</small></div></div>
         <div className="mb-proof"><span><MiniIcon type="truck"/>{ar ? "المغرب كامل" : "Tout le Maroc"}</span><span><MiniIcon type="cash"/>{ar ? "بلا خلصة فالأنترنت" : "Sans paiement en ligne"}</span><span><MiniIcon type="box"/>{ar ? "كنراقبوا الكولي" : "Colis contrôlés"}</span></div>
       </div>
@@ -75,22 +74,22 @@ export default function MoroccoBestHome() {
 
     <section id="mission" className="mb-mission mb-wrap">
       <div className="mb-section-label">{ar ? "01 — المهمة ديالنا" : "01 — NOTRE MISSION"}</div>
-      <div className="mb-mission-copy"><h2>{ar ? <>تجارة إلكترونية<br/><em>بالثقة والنية.</em></> : <>Le e-commerce<br/><em>en toute confiance.</em></>}</h2><p>{ar ? "كنقربوا للمغاربة اختيارات متنوعة ديال المنتوجات، بتجربة واضحة، إنسانية ومضمونة. بلا كارت بنكية وبلا تعقيدات: نتا كتطلب، حنا كنتاصلوا بيك، وكتخلص غير ملي يوصلك الكولي." : "Nous connectons les Marocains à une sélection variée de produits, avec une expérience claire, humaine et rassurante. Pas de carte bancaire, pas de complication : vous commandez, nous confirmons et vous payez à la réception."}</p></div>
+      <div className="mb-mission-copy"><h2>تجارة إلكترونية<br/><em>بالثقة والنية.</em><small>Le e-commerce en toute confiance.</small></h2><p>كنقربوا للمغاربة اختيارات متنوعة ديال المنتوجات، بتجربة واضحة، إنسانية ومضمونة. بلا كارت بنكية وبلا تعقيدات: نتا كتطلب، حنا كنتاصلوا بيك، وكتخلص غير ملي يوصلك الكولي.<span className="mb-fr">Une sélection variée, une expérience claire et humaine. Vous commandez, nous confirmons et vous payez uniquement à la réception.</span></p></div>
       <div className="mb-stats"><article><strong>12</strong><span>{ar ? <>جهة<br/>كنوصلوا ليها</> : <>régions<br/>desservies</>}</span></article><article><strong>COD</strong><span>{ar ? <>الخلص<br/>عند الاستلام</> : <>paiement<br/>à la livraison</>}</span></article><article><strong>7/7</strong><span>{ar ? <>تتبع<br/>الطلبيات</> : <>suivi des<br/>commandes</>}</span></article></div>
     </section>
 
     <section id="parcours" className="mb-process">
-      <div className="mb-wrap"><div className="mb-process-head"><div><span>{ar ? "02 — الطريق ديال طلبيتك" : "02 — VOTRE PARCOURS"}</span><h2>{ar ? <>من أول كليك<br/><em>حتى لباب دارك.</em></> : <>Du premier clic<br/><em>jusqu&apos;à votre porte.</em></>}</h2></div><p>{ar ? "كل طلبية كدوز من طريق واضح ومنظم. الفريق ديالنا كيتبع كل مرحلة باش تجربتك تبقى سهلة وسريعة." : "Chaque commande suit un parcours précis. Notre équipe veille sur chaque étape pour que votre expérience reste simple et rapide."}</p></div>
-        <div className="mb-timeline">{steps.map(([number,title,text,arTitle,arText],index)=><article key={number}><div className="mb-step-line"><b>{number}</b><i/><span>{index===steps.length-1?"✓":""}</span></div><h3>{ar ? arTitle : title}</h3><p>{ar ? arText : text}</p></article>)}</div>
+      <div className="mb-wrap"><div className="mb-process-head"><div><span>02 — الطريق ديال طلبيتك · VOTRE PARCOURS</span><h2>من أول كليك<br/><em>حتى لباب دارك.</em><small>Du premier clic jusqu’à votre porte.</small></h2></div><p>كل طلبية كدوز من طريق واضح ومنظم. الفريق ديالنا كيتبع كل مرحلة باش تجربتك تبقى سهلة وسريعة.<span className="mb-fr">Chaque commande suit un parcours précis, suivi par notre équipe pour une expérience simple et rapide.</span></p></div>
+        <div className="mb-timeline">{steps.map(([number,title,text,arTitle,arText],index)=><article key={number}><div className="mb-step-line"><b>{number}</b><i/><span>{index===steps.length-1?"✓":""}</span></div><h3>{arTitle}<small>{title}</small></h3><p>{arText}<small>{text}</small></p></article>)}</div>
       </div>
     </section>
 
     <section id="maroc" className="mb-morocco">
-      <div className="mb-zellige"/><div className="mb-wrap mb-morocco-grid"><div><span className="mb-section-label">{ar ? "من طنجة حتى للكويرة" : "DU NORD AU SUD"}</span><h2>{ar ? <>كنوصلوا ليك<br/><em>فين ما كنتي.</em></> : <>Nous livrons<br/><em>partout au Maroc.</em></>}</h2><p>{ar ? "شبكة التوصيل ديالنا كاتغطي 12 جهة. من بعد تأكيد الطلب، كنوجدوا الكولي وكنصيفطوه مع الليفرور فالأقرب وقت." : "Notre réseau dessert les 12 régions du Royaume. Après confirmation, votre colis est contrôlé, étiqueté puis remis au livreur dans les meilleurs délais."}</p></div><figure className="mb-map"><img src="/morocco-regions-official.svg" alt="الخريطة الرسمية الكاملة للمملكة المغربية بجهاتها الاثنتي عشرة"/><figcaption>{ar ? "الخريطة الرسمية للمملكة المغربية · 12 جهة" : "Carte officielle du Royaume du Maroc · 12 régions"}</figcaption></figure><div className="mb-regions">{regions.map(region=><span key={region}>{region}</span>)}</div></div>
+      <div className="mb-zellige"/><div className="mb-wrap mb-morocco-grid"><div><span className="mb-section-label">من طنجة حتى للكويرة · DU NORD AU SUD</span><h2>كنوصلوا ليك<br/><em>فين ما كنتي.</em><small>Nous livrons partout au Maroc.</small></h2><p>شبكة التوصيل ديالنا كاتغطي 12 جهة. من بعد تأكيد الطلب، كنوجدوا الكولي وكنصيفطوه مع الليفرور فالأقرب وقت.<span className="mb-fr">Notre réseau dessert les 12 régions du Royaume. Votre colis est contrôlé, étiqueté puis remis au livreur.</span></p></div><figure className="mb-map"><img src="/morocco-regions-official.svg" alt="الخريطة الرسمية الكاملة للمملكة المغربية بجهاتها الاثنتي عشرة"/><figcaption>الخريطة الرسمية للمملكة المغربية · Carte officielle du Royaume · 12 régions</figcaption></figure><div className="mb-regions">{regions.map(region=><span key={region}>{region}</span>)}</div></div>
     </section>
 
     <section id="engagements" className="mb-values mb-wrap">
-      <div className="mb-section-label">{ar ? "03 — الالتزام ديالنا" : "03 — NOS ENGAGEMENTS"}</div><div className="mb-values-grid"><h2>{ar ? <>علاش تختار<br/><em>MoroBest؟</em></> : <>Pourquoi choisir<br/><em>MoroBest ?</em></>}</h2><article><span><MiniIcon type="box"/></span><h3>{ar ? "منتوجات مختارة" : "Produits sélectionnés"}</h3><p>{ar ? "كنختاروا عروض مفيدة، مطلوبة وبثمن مناسب للجودة." : "Des offres choisies pour leur utilité, leur tendance et leur rapport qualité-prix."}</p></article><article><span><MiniIcon type="truck"/></span><h3>{ar ? "توصيل وطني" : "Livraison nationale"}</h3><p>{ar ? "خدمة توصيل منظمة باش توصلك الطلبية فين ما كنتي فالمغرب." : "Une logistique organisée pour vous servir, où que vous soyez au Maroc."}</p></article><article><span><MiniIcon type="cash"/></span><h3>{ar ? "بلا مخاطرة" : "Aucun risque"}</h3><p>{ar ? "ما كتخلص حتى يوصلك الكولي وتستلم الطلبية ديالك." : "Vous réglez votre commande uniquement lorsqu'elle arrive entre vos mains."}</p></article></div>
+      <div className="mb-section-label">03 — الالتزام ديالنا · NOS ENGAGEMENTS</div><div className="mb-values-grid"><h2>علاش تختار<br/><em>MoroBest؟</em><small>Pourquoi choisir MoroBest ?</small></h2><article><span><MiniIcon type="box"/></span><h3>منتوجات مختارة<small>Produits sélectionnés</small></h3><p>كنختاروا عروض مفيدة، مطلوبة وبثمن مناسب للجودة.<small>Des offres utiles avec un excellent rapport qualité-prix.</small></p></article><article><span><MiniIcon type="truck"/></span><h3>توصيل وطني<small>Livraison nationale</small></h3><p>خدمة توصيل منظمة باش توصلك الطلبية فين ما كنتي فالمغرب.<small>Une logistique organisée partout au Maroc.</small></p></article><article><span><MiniIcon type="cash"/></span><h3>بلا مخاطرة<small>Aucun risque</small></h3><p>ما كتخلص حتى يوصلك الكولي وتستلم الطلبية ديالك.<small>Vous payez uniquement à la réception.</small></p></article></div>
     </section>
 
     <section className="mb-final"><div className="mb-wrap"><div><span>{ar ? "مرحبا بيك فـ MOROBEST" : "BIENVENUE CHEZ MOROBEST"}</span><h2>{ar ? <>الأحسن كيوصلك<br/><em>حتى لدارك.</em></> : <>Le meilleur arrive<br/><em>chez vous.</em></>}</h2></div><div className="mb-final-orbit"><span>م</span><i/><i/><i/></div></div></section>
