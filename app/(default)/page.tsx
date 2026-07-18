@@ -49,10 +49,10 @@ export default function MoroccoBestHome() {
 
     <section className="mb-hero mb-wrap">
       <div className="mb-hero-copy">
-        <div className="mb-kicker"><i/> {ar ? "طريقة جديدة وساهلة للتسوق فالمغرب" : "Une nouvelle façon d'acheter au Maroc"}</div>
+        <div className="mb-kicker"><i/> المتجر ديالك لكل ما هو جديد ومفيد · Votre boutique en ligne</div>
         <h1>منتوجات زوينة.<br/><em>كتوصلك حتى للدار.</em><small>Les bons produits. Livrés chez vous.</small></h1>
         <p>MoroBest كاتختار ليك منتوجات مفيدة ومطلوبة، وكتسهّل عليك الطلب من أول كليك حتى يوصلك الكولي لباب دارك.<span className="mb-fr">MoroBest sélectionne des produits utiles et simplifie chaque étape, du premier clic jusqu’à votre porte.</span></p>
-        <div className="mb-actions"><a href="#parcours" className="mb-primary">{ar ? "شوف كيفاش كتدوز الطلبية" : "Voir comment ça marche"} <span>→</span></a><div><b>100%</b><small>{ar ? "الخلص ملي يوصلك الكولي" : "Paiement à la livraison"}</small></div></div>
+        <div className="mb-actions"><a href="#categories" className="mb-primary">شوف شنو كنوفرو · Découvrir <span>→</span></a><div><b>100%</b><small>الخلص ملي يوصلك الكولي · Paiement à la livraison</small></div></div>
         <div className="mb-proof"><span><MiniIcon type="truck"/>{ar ? "المغرب كامل" : "Tout le Maroc"}</span><span><MiniIcon type="cash"/>{ar ? "بلا خلصة فالأنترنت" : "Sans paiement en ligne"}</span><span><MiniIcon type="box"/>{ar ? "كنراقبوا الكولي" : "Colis contrôlés"}</span></div>
       </div>
 
@@ -71,6 +71,17 @@ export default function MoroccoBestHome() {
     </section>
 
     <section className="mb-marquee"><div>{ar ? <>الدار <i>✦</i> الجمال <i>✦</i> الراحة <i>✦</i> الإكسسوارات <i>✦</i> التكنولوجيا <i>✦</i> الحيوانات <i>✦</i> الحياة اليومية</> : <>MAISON <i>✦</i> BEAUTÉ <i>✦</i> BIEN-ÊTRE <i>✦</i> ACCESSOIRES <i>✦</i> HIGH-TECH <i>✦</i> ANIMAUX <i>✦</i> QUOTIDIEN</>}</div></section>
+
+    <section id="categories" className="mb-shop mb-wrap">
+      <div className="mb-shop-head"><div><span>اختيارات لكل دار · POUR CHAQUE ENVIE</span><h2>كل ما تحتاجه.<br/><em>فبلاصة وحدة.</em><small>Tout ce qu’il vous faut, au même endroit.</small></h2></div><p>كنقلبو على المنتوجات الجديدة والمفيدة باش نسهلو عليك التسوق ونجيبو ليك الاختيار حتى لباب دارك.<span className="mb-fr">Nous sélectionnons des produits utiles et tendance pour rendre vos achats plus simples.</span></p></div>
+      <div className="mb-category-grid">
+        <article className="cat-home"><span>🏠</span><b>الدار والمطبخ<small>Maison & cuisine</small></b><i>اكتشف · Voir →</i></article>
+        <article className="cat-beauty"><span>✦</span><b>الجمال والعناية<small>Beauté & bien-être</small></b><i>اكتشف · Voir →</i></article>
+        <article className="cat-tech"><span>⌁</span><b>تكنولوجيا وإكسسوارات<small>High-tech & accessoires</small></b><i>اكتشف · Voir →</i></article>
+        <article className="cat-pets"><span>♧</span><b>الحيوانات الأليفة<small>Animaux de compagnie</small></b><i>اكتشف · Voir →</i></article>
+      </div>
+      <div className="mb-sales-strip"><span><b>✓</b> منتوجات مختارة · Produits sélectionnés</span><span><b>✓</b> أثمنة مناسبة · Prix accessibles</span><span><b>✓</b> توصيل سريع · Livraison rapide</span><span><b>✓</b> الخلص عند الاستلام · Paiement à la réception</span></div>
+    </section>
 
     <section id="mission" className="mb-mission mb-wrap">
       <div className="mb-section-label">{ar ? "01 — المهمة ديالنا" : "01 — NOTRE MISSION"}</div>
