@@ -1,118 +1,109 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { MouseEvent } from "react";
 
-const whatsappNumber = "212675409754";
-
-const features = [
-  { value: "4", label: "Prises européennes", ar: "مقابس أوروبية" },
-  { value: "2", label: "Ports USB-A", ar: "منافذ USB-A" },
-  { value: "2", label: "Ports USB-C", ar: "منافذ USB-C" },
-  { value: "1", label: "Interrupteur général", ar: "زر تشغيل رئيسي" },
+const steps = [
+  ["01", "Vous voyez l’annonce", "Une offre claire apparaît sur vos réseaux sociaux.", "كتشوف الإشهار", "العرض كيبان ليك واضح فمواقع التواصل."],
+  ["02", "Vous cliquez", "Le lien vous mène vers la page dédiée au produit.", "كتكليكي", "الرابط كيديك مباشرة لصفحة المنتوج."],
+  ["03", "Vous choisissez", "Vous découvrez les détails et sélectionnez votre offre.", "كتختار", "كتشوف التفاصيل وكتختار العرض لي ناسبك."],
+  ["04", "Vous commandez", "Un formulaire simple suffit, sans paiement en ligne.", "كتعمّر الطلب", "كتعمّر فورمولير ساهل بلا خلصة فالأنترنت."],
+  ["05", "Nous confirmons", "Notre équipe vous contacte pour valider la commande.", "كنتاصلوا بيك", "الفريق ديالنا كيتاصل بيك باش يأكد الطلب."],
+  ["06", "Nous préparons", "Contrôle, emballage et étiquetage avec soin.", "كنوجدوا الكولي", "كنراقبوا المنتوج، كنغلفوه وكنوجدوا الإتيكيت."],
+  ["07", "Vous recevez", "Le livreur vous remet le colis partout au Maroc.", "كيوصلك حتى للدار", "الليفرور كيوصل ليك الكولي فين ما كنتي فالمغرب."],
 ];
 
-const useCases = [
-  ["Maison", "المنزل", "Télévision, lampes, téléphones et appareils du quotidien."],
-  ["Bureau", "المكتب", "Ordinateur, écran et accessoires regroupés sur un seul point."],
-  ["Cuisine", "المطبخ", "Une solution compacte pour les petits appareils, dans la limite de 10 A."],
-  ["Gaming", "الألعاب", "Console, écran, routeur et chargeurs sans multiplier les adaptateurs."],
-];
+const regions = ["طنجة - تطوان - الحسيمة", "الشرق", "فاس - مكناس", "الرباط - سلا - القنيطرة", "بني ملال - خنيفرة", "الدار البيضاء - سطات", "مراكش - آسفي", "درعة - تافيلالت", "سوس - ماسة", "كلميم - واد نون", "العيون - الساقية الحمراء", "الداخلة - وادي الذهب"];
 
-export default function MultipriseLandingPage() {
-  const [error, setError] = useState("");
+const MiniIcon = ({ type }: { type: "box" | "truck" | "cash" | "spark" }) => {
+  const drawings = {
+    box: <><path d="m4 7 8-4 8 4-8 4-8-4Z"/><path d="M4 7v10l8 4 8-4V7M12 11v10"/></>,
+    truck: <><path d="M3 6h11v10H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></>,
+    cash: <><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M7 9H6v1M17 15h1v-1"/></>,
+    spark: <><path d="m12 3 1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3Z"/><path d="m19 15 .7 2.3L22 18l-2.3.7L19 21l-.7-2.3L16 18l2.3-.7L19 15Z"/></>,
+  };
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{drawings[type]}</svg>;
+};
 
-  function submitOrder(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const name = String(data.get("name") || "").trim();
-    const phone = String(data.get("phone") || "").replace(/[\s.-]/g, "");
-    const city = String(data.get("city") || "").trim();
-    const quantity = String(data.get("quantity") || "1");
-
-    if (!name || !city || !/^(?:\+?212|0)[5-7]\d{8}$/.test(phone)) {
-      setError("Merci de compléter votre nom, votre ville et un numéro marocain valide. · المرجو إدخال الاسم والمدينة ورقم هاتف مغربي صحيح.");
-      return;
-    }
-
-    setError("");
-    const message = [
-      "Bonjour MoroBest, je souhaite commander la multiprise 4 prises + 4 ports USB à 169 DH, livraison incluse.",
-      "السلام عليكم، بغيت نطلب المشترك الكهربائي ديال 4 مقابس و4 منافذ USB بثمن 169 درهم، التوصيل داخل فالثمن.",
-      "",
-      `Nom / الاسم: ${name}`,
-      `Téléphone / الهاتف: ${phone}`,
-      `Ville et adresse / المدينة والعنوان: ${city}`,
-      `Quantité / الكمية: ${quantity}`,
-      "",
-      "Total : 169 DH par unité, livraison incluse / 169 درهم للوحدة والتوصيل داخل فالثمن.",
-      "Paiement à la réception / الدفع عند الاستلام.",
-    ].join("\n");
-    window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+export default function MoroccoBestHome() {
+  const ar = true;
+  function moveStage(event: MouseEvent<HTMLDivElement>) {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width - .5;
+    const y = (event.clientY - rect.top) / rect.height - .5;
+    event.currentTarget.style.setProperty("--mbx", `${x * 10}deg`);
+    event.currentTarget.style.setProperty("--mby", `${-y * 8}deg`);
   }
 
-  return (
-    <main className="mp-site">
-      <div className="mp-announcement"><span>169 DH · Livraison incluse</span><i /><b dir="rtl">169 درهم · التوصيل داخل فالثمن</b><i /><span>Paiement à la réception</span><i /><b dir="rtl">الدفع عند الاستلام</b></div>
+  function resetStage(event: MouseEvent<HTMLDivElement>) {
+    event.currentTarget.style.setProperty("--mbx", "0deg");
+    event.currentTarget.style.setProperty("--mby", "0deg");
+  }
 
-      <header className="mp-nav mp-wrap">
-        <a className="mp-brand" href="#top" aria-label="MoroBest accueil"><strong>Moro</strong>Best<span>.</span><small>Smart living</small></a>
-        <nav aria-label="Navigation principale"><a href="#avantages">Avantages <small dir="rtl">المميزات</small></a><a href="#details">Détails <small dir="rtl">التفاصيل</small></a><a href="#commander">Commander <small dir="rtl">اطلب الآن</small></a></nav>
-        <a className="mp-nav-cta" href="#commander">Je commande · 169 DH <span dir="rtl">اطلب الآن</span></a>
-      </header>
+  return <main className={`mb-site ${ar ? "mb-ar" : ""}`} dir={ar ? "rtl" : "ltr"}>
+    <div className="mb-topline">{ar ? "التوصيل لجميع مدن المغرب" : "Livraison partout au Maroc"} <span/> {ar ? "الخلص عند الاستلام" : "Paiement à la réception"}</div>
+    <header className="mb-nav mb-wrap">
+      <a className="mb-logo" href="#"><b>Moro</b>Best<i>.</i><small>Morocco&apos;s best products</small></a>
+      <nav><a href="#mission">المهمة ديالنا<small>Notre mission</small></a><a href="#parcours">كيفاش كتدوز الطلبية<small>Comment ça marche</small></a><a href="#maroc">التوصيل فالمغرب<small>Livraison au Maroc</small></a></nav>
+      <span className="mb-bilingual">العربية <i/> Français</span>
+    </header>
 
-      <section id="top" className="mp-hero mp-wrap">
-        <div className="mp-hero-copy">
-          <div className="mp-pill"><span>●</span> 8 connexions, un seul branchement</div>
-          <h1>Branchez tout.<br /><em>Gardez le contrôle.</em></h1>
-          <p className="mp-ar-lead" dir="rtl">شبّك أجهزتك كاملة، بلا فوضى وبلا ما تبقى تقلب على بلاصة فارغة.</p>
-          <p className="mp-lead">Une multiprise compacte qui réunit <strong>4 prises européennes, 2 USB-A et 2 USB-C</strong>, avec un interrupteur général bien visible.</p>
-          <div className="mp-price"><strong>169<sup>DH</sup></strong><span>Livraison incluse<small dir="rtl">التوصيل داخل فالثمن</small></span></div>
-          <div className="mp-hero-actions"><a className="mp-primary" href="#commander">Commander maintenant <span>→</span><small dir="rtl">اطلب دابا</small></a><a className="mp-secondary" href="#details">Voir le produit <span>↓</span></a></div>
-          <div className="mp-mini-proof"><span>✓ Livraison nationale</span><span>✓ Paiement à la réception</span><span>✓ Confirmation par WhatsApp</span></div>
+    <section className="mb-hero mb-wrap">
+      <div className="mb-hero-copy">
+        <div className="mb-kicker"><i/> المتجر ديالك لكل ما هو جديد ومفيد · Votre boutique en ligne</div>
+        <h1>منتوجات زوينة.<br/><em>كتوصلك حتى للدار.</em><small>Les bons produits. Livrés chez vous.</small></h1>
+        <p>MoroBest كاتختار ليك منتوجات مفيدة ومطلوبة، وكتسهّل عليك الطلب من أول كليك حتى يوصلك الكولي لباب دارك.<span className="mb-fr">MoroBest sélectionne des produits utiles et simplifie chaque étape, du premier clic jusqu’à votre porte.</span></p>
+        <div className="mb-actions"><a href="#categories" className="mb-primary">شوف شنو كنوفرو · Découvrir <span>→</span></a><div><b>100%</b><small>الخلص ملي يوصلك الكولي · Paiement à la livraison</small></div></div>
+        <div className="mb-proof"><span><MiniIcon type="truck"/>{ar ? "المغرب كامل" : "Tout le Maroc"}</span><span><MiniIcon type="cash"/>{ar ? "بلا خلصة فالأنترنت" : "Sans paiement en ligne"}</span><span><MiniIcon type="box"/>{ar ? "كنراقبوا الكولي" : "Colis contrôlés"}</span></div>
+      </div>
+
+      <div className="mb-stage" onMouseMove={moveStage} onMouseLeave={resetStage}>
+        <div className="mb-glow"/><div className="mb-ring mb-ring-one"/><div className="mb-ring mb-ring-two"/>
+        <div className="mb-phone">
+          <div className="mb-phone-top"><span>9:41</span><i/></div>
+          <div className="mb-social"><span>morobest</span><b>•••</b></div>
+          <div className="mb-product-scene"><div className="mb-pedestal"/><div className="mb-box-shape"><i>MB</i></div><span className="mb-spark s1">✦</span><span className="mb-spark s2">✦</span></div>
+          <div className="mb-post-copy"><b>{ar ? "المنتوج الجاي لي غيعجبك." : "Votre prochain coup de cœur."}</b><span>{ar ? "ساهل. سريع. حتى للدار." : "Simple. Rapide. Livré."}</span><button>{ar ? "اكتشف" : "Découvrir"}</button></div>
         </div>
-        <div className="mp-hero-visual"><div className="mp-hero-halo" /><img src="/multiprise-hero.png" alt="Multiprise noire MoroBest avec quatre prises européennes, deux ports USB-A, deux ports USB-C et interrupteur rouge" /><div className="mp-float mp-float-one"><b>4 + 4</b><span>Prises + USB</span><small dir="rtl">مقابس ومنافذ</small></div><div className="mp-float mp-float-two"><b>10 A</b><span>Maximum indiqué</span><small dir="rtl">الحد الأقصى</small></div></div>
-      </section>
+        <div className="mb-float mb-float-a"><span><MiniIcon type="spark"/></span><p><b>{ar ? "اختيارات مفيدة" : "Sélection utile"}</b><small>{ar ? "لحياتك اليومية" : "Pour le quotidien"}</small></p></div>
+        <div className="mb-float mb-float-b"><span><MiniIcon type="truck"/></span><p><b>{ar ? "توصيل سريع" : "Livraison rapide"}</b><small>{ar ? "للمغرب كامل" : "Partout au Maroc"}</small></p></div>
+        <div className="mb-float mb-float-c"><span>✓</span><p><b>{ar ? "تأكد الطلب" : "Commande confirmée"}</b><small>{ar ? "مع الفريق ديالنا" : "Par notre équipe"}</small></p></div>
+      </div>
+    </section>
 
-      <section className="mp-spec-bar"><div className="mp-wrap">{features.map((item) => <article key={item.label}><strong>{item.value}</strong><p>{item.label}<small dir="rtl">{item.ar}</small></p></article>)}</div></section>
+    <section className="mb-marquee"><div>{ar ? <>الدار <i>✦</i> الجمال <i>✦</i> الراحة <i>✦</i> الإكسسوارات <i>✦</i> التكنولوجيا <i>✦</i> الحيوانات <i>✦</i> الحياة اليومية</> : <>MAISON <i>✦</i> BEAUTÉ <i>✦</i> BIEN-ÊTRE <i>✦</i> ACCESSOIRES <i>✦</i> HIGH-TECH <i>✦</i> ANIMAUX <i>✦</i> QUOTIDIEN</>}</div></section>
 
-      <section id="avantages" className="mp-problem mp-section mp-wrap">
-        <div className="mp-section-head"><div><span>MOINS DE CÂBLES, PLUS D’ESPACE</span><h2>Le désordre s’arrête ici.<small dir="rtl">الفوضى كتوقف هنا.</small></h2></div><p>Au lieu d’empiler les adaptateurs, regroupez vos appareils et vos téléphones sur une seule multiprise compacte.</p></div>
-        <div className="mp-problem-grid">
-          <figure className="mp-problem-image"><img src="/multiprise-2.png" alt="Comparaison entre un bureau encombré de câbles et une installation organisée avec la multiprise" /><figcaption>Un seul point de connexion pour simplifier votre bureau.</figcaption></figure>
-          <div className="mp-benefit-list">
-            <article><span>01</span><div><h3>Fini les prises manquantes</h3><p>Quatre appareils secteur peuvent être branchés en même temps.</p><small dir="rtl">ربعة ديال الأجهزة فبلاصة وحدة.</small></div></article>
-            <article><span>02</span><div><h3>Chargez sans adaptateur</h3><p>Deux ports USB-A et deux ports USB-C sont intégrés directement.</p><small dir="rtl">شحن مباشر بـ USB-A وUSB-C.</small></div></article>
-            <article><span>03</span><div><h3>Coupez tout d’un geste</h3><p>L’interrupteur rouge permet d’éteindre l’ensemble sans retirer chaque fiche.</p><small dir="rtl">طفي كلشي بضغطة وحدة.</small></div></article>
-          </div>
-        </div>
-      </section>
+    <section id="categories" className="mb-shop mb-wrap">
+      <div className="mb-shop-head"><div><span>اختيارات لكل دار · POUR CHAQUE ENVIE</span><h2>كل ما تحتاجه.<br/><em>فبلاصة وحدة.</em><small>Tout ce qu’il vous faut, au même endroit.</small></h2></div><p>كنقلبو على المنتوجات الجديدة والمفيدة باش نسهلو عليك التسوق ونجيبو ليك الاختيار حتى لباب دارك.<span className="mb-fr">Nous sélectionnons des produits utiles et tendance pour rendre vos achats plus simples.</span></p></div>
+      <div className="mb-category-grid">
+        <article className="cat-home"><span>🏠</span><b>الدار والمطبخ<small>Maison & cuisine</small></b><i>اكتشف · Voir →</i></article>
+        <article className="cat-beauty"><span>✦</span><b>الجمال والعناية<small>Beauté & bien-être</small></b><i>اكتشف · Voir →</i></article>
+        <article className="cat-tech"><span>⌁</span><b>تكنولوجيا وإكسسوارات<small>High-tech & accessoires</small></b><i>اكتشف · Voir →</i></article>
+        <article className="cat-pets"><span>♧</span><b>الحيوانات الأليفة<small>Animaux de compagnie</small></b><i>اكتشف · Voir →</i></article>
+      </div>
+      <div className="mb-sales-strip"><span><b>✓</b> منتوجات مختارة · Produits sélectionnés</span><span><b>✓</b> أثمنة مناسبة · Prix accessibles</span><span><b>✓</b> توصيل سريع · Livraison rapide</span><span><b>✓</b> الخلص عند الاستلام · Paiement à la réception</span></div>
+    </section>
 
-      <section id="details" className="mp-details mp-section"><div className="mp-wrap mp-details-grid">
-        <div className="mp-real-card"><img src="/multiprise-real.jpg" alt="Photo réelle de la face avant de la multiprise" /><span>Photo réelle du produit · صورة حقيقية</span></div>
-        <div className="mp-details-copy"><span className="mp-kicker">CARACTÉRISTIQUES RÉELLES</span><h2>Compacte devant.<br /><em>Pratique derrière.</em><small dir="rtl">صغيرة وعملية.</small></h2><p>Son boîtier rectangulaire regroupe toutes les connexions sur la face avant. À l’arrière, deux encoches permettent une fixation murale adaptée.</p>
-          <ul><li><b>4</b><span>prises européennes rondes<small dir="rtl">4 مقابس أوروبية</small></span></li><li><b>4</b><span>ports USB : 2 USB-A + 2 USB-C<small dir="rtl">4 منافذ للشحن</small></span></li><li><b>10 A</b><span>maximum indiqué, 220 V~, 50/60 Hz<small dir="rtl">المواصفات المكتوبة على المنتج</small></span></li><li><b>2</b><span>encoches de fixation au dos<small dir="rtl">فتحتان للتثبيت على الحائط</small></span></li></ul>
-          <p className="mp-note">Respectez la puissance maximale de 10 A indiquée sur le produit. Ne branchez pas plusieurs appareils très énergivores simultanément.</p>
-        </div>
-      </div></section>
+    <section id="mission" className="mb-mission mb-wrap">
+      <div className="mb-section-label">{ar ? "01 — المهمة ديالنا" : "01 — NOTRE MISSION"}</div>
+      <div className="mb-mission-copy"><h2>تجارة إلكترونية<br/><em>بالثقة والنية.</em><small>Le e-commerce en toute confiance.</small></h2><p>كنقربوا للمغاربة اختيارات متنوعة ديال المنتوجات، بتجربة واضحة، إنسانية ومضمونة. بلا كارت بنكية وبلا تعقيدات: نتا كتطلب، حنا كنتاصلوا بيك، وكتخلص غير ملي يوصلك الكولي.<span className="mb-fr">Une sélection variée, une expérience claire et humaine. Vous commandez, nous confirmons et vous payez uniquement à la réception.</span></p></div>
+      <div className="mb-stats"><article><strong>12</strong><span>{ar ? <>جهة<br/>كنوصلوا ليها</> : <>régions<br/>desservies</>}</span></article><article><strong>COD</strong><span>{ar ? <>الخلص<br/>عند الاستلام</> : <>paiement<br/>à la livraison</>}</span></article><article><strong>7/7</strong><span>{ar ? <>تتبع<br/>الطلبيات</> : <>suivi des<br/>commandes</>}</span></article></div>
+    </section>
 
-      <section className="mp-spaces mp-section mp-wrap">
-        <div className="mp-section-head"><div><span>UNE SOLUTION, PLUSIEURS ESPACES</span><h2>Elle trouve sa place partout.<small dir="rtl">كتنفعك فكل بلاصة.</small></h2></div><p>Maison, bureau, cuisine ou coin gaming : elle centralise les branchements sans prendre toute la table.</p></div>
-        <div className="mp-spaces-grid"><img src="/multiprise-4.png" alt="Multiprise utilisée à la maison, au bureau, dans la cuisine et pour un espace gaming" /><div>{useCases.map(([title, ar, text], index) => <article key={title}><span>0{index + 1}</span><h3>{title}<small dir="rtl">{ar}</small></h3><p>{text}</p></article>)}</div></div>
-      </section>
+    <section id="parcours" className="mb-process">
+      <div className="mb-wrap"><div className="mb-process-head"><div><span>02 — الطريق ديال طلبيتك · VOTRE PARCOURS</span><h2>من أول كليك<br/><em>حتى لباب دارك.</em><small>Du premier clic jusqu’à votre porte.</small></h2></div><p>كل طلبية كدوز من طريق واضح ومنظم. الفريق ديالنا كيتبع كل مرحلة باش تجربتك تبقى سهلة وسريعة.<span className="mb-fr">Chaque commande suit un parcours précis, suivi par notre équipe pour une expérience simple et rapide.</span></p></div>
+        <div className="mb-timeline">{steps.map(([number,title,text,arTitle,arText],index)=><article key={number}><div className="mb-step-line"><b>{number}</b><i/><span>{index===steps.length-1?"✓":""}</span></div><h3>{arTitle}<small>{title}</small></h3><p>{arText}<small>{text}</small></p></article>)}</div>
+      </div>
+    </section>
 
-      <section className="mp-reassurance"><div className="mp-wrap"><article><b>🚚</b><h3>Livraison incluse<small dir="rtl">التوصيل داخل فالثمن</small></h3></article><article><b>💵</b><h3>Paiement à la réception<small dir="rtl">الدفع عند الاستلام</small></h3></article><article><b>💬</b><h3>Commande via WhatsApp<small dir="rtl">الطلب عبر واتساب</small></h3></article></div></section>
+    <section id="maroc" className="mb-morocco">
+      <div className="mb-zellige"/><div className="mb-wrap mb-morocco-grid"><div><span className="mb-section-label">من طنجة حتى للكويرة · DU NORD AU SUD</span><h2>كنوصلوا ليك<br/><em>فين ما كنتي.</em><small>Nous livrons partout au Maroc.</small></h2><p>شبكة التوصيل ديالنا كاتغطي 12 جهة. من بعد تأكيد الطلب، كنوجدوا الكولي وكنصيفطوه مع الليفرور فالأقرب وقت.<span className="mb-fr">Notre réseau dessert les 12 régions du Royaume. Votre colis est contrôlé, étiqueté puis remis au livreur.</span></p></div><figure className="mb-map"><img src="/morocco-regions-official.svg" alt="الخريطة الرسمية الكاملة للمملكة المغربية بجهاتها الاثنتي عشرة"/><figcaption>الخريطة الرسمية للمملكة المغربية · Carte officielle du Royaume · 12 régions</figcaption></figure><div className="mb-regions">{regions.map(region=><span key={region}>{region}</span>)}</div></div>
+    </section>
 
-      <section id="commander" className="mp-order mp-section"><div className="mp-wrap mp-order-card">
-        <div className="mp-order-summary"><span>169 DH · LIVRAISON INCLUSE</span><h2>Prêt à simplifier vos branchements ?<small dir="rtl">واجد ترتّب أجهزتك؟</small></h2><img src="/multiprise-1.png" alt="Résumé des caractéristiques de la multiprise" /><p>Votre demande est envoyée directement à MoroBest sur WhatsApp. Notre équipe vous contacte pour confirmer les détails.</p></div>
-        <form className="mp-form" onSubmit={submitOrder} noValidate><div><span>FORMULAIRE WHATSAPP</span><b>169 DH · Livraison incluse</b></div><h3>Où devons-nous livrer ?<small dir="rtl">فين نوصّلو ليك؟</small></h3>
-          <label>Nom complet · الاسم الكامل<input name="name" autoComplete="name" placeholder="Votre nom / الاسم ديالك" /></label><label>Téléphone · رقم الهاتف<input name="phone" type="tel" inputMode="tel" autoComplete="tel" placeholder="06 12 34 56 78" /></label><label>Ville et adresse · المدينة والعنوان<textarea name="city" rows={3} autoComplete="street-address" placeholder="Ville, quartier, adresse / المدينة، الحي، العنوان" /></label><label>Quantité · الكمية<select name="quantity" defaultValue="1"><option value="1">1 multiprise</option><option value="2">2 multiprises</option><option value="3">3 multiprises</option><option value="4">4 multiprises</option></select></label>
-          {error && <p className="mp-form-error" role="alert">{error}</p>}<button type="submit">Envoyer sur WhatsApp <span>→</span><small dir="rtl">صيفط الطلب فواتساب</small></button><p className="mp-privacy">🔒 Vos informations servent uniquement à confirmer cette commande.</p>
-        </form>
-      </div></section>
+    <section id="engagements" className="mb-values mb-wrap">
+      <div className="mb-section-label">03 — الالتزام ديالنا · NOS ENGAGEMENTS</div><div className="mb-values-grid"><h2>علاش تختار<br/><em>MoroBest؟</em><small>Pourquoi choisir MoroBest ?</small></h2><article><span><MiniIcon type="box"/></span><h3>منتوجات مختارة<small>Produits sélectionnés</small></h3><p>كنختاروا عروض مفيدة، مطلوبة وبثمن مناسب للجودة.<small>Des offres utiles avec un excellent rapport qualité-prix.</small></p></article><article><span><MiniIcon type="truck"/></span><h3>توصيل وطني<small>Livraison nationale</small></h3><p>خدمة توصيل منظمة باش توصلك الطلبية فين ما كنتي فالمغرب.<small>Une logistique organisée partout au Maroc.</small></p></article><article><span><MiniIcon type="cash"/></span><h3>بلا مخاطرة<small>Aucun risque</small></h3><p>ما كتخلص حتى يوصلك الكولي وتستلم الطلبية ديالك.<small>Vous payez uniquement à la réception.</small></p></article></div>
+    </section>
 
-      <footer className="mp-footer"><div className="mp-wrap"><a className="mp-brand" href="#top"><strong>Moro</strong>Best<span>.</span></a><p>Les bons produits, livrés chez vous.<small dir="rtl">أحسن المنتجات حتى لباب دارك.</small></p><span>© 2026 MoroBest · Maroc</span></div></footer>
-
-      <div className="mp-floating-actions"><a className="mp-float-whatsapp" href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Bonjour MoroBest, je souhaite avoir plus d'informations sur la multiprise à 169 DH, livraison incluse.")}`} target="_blank" rel="noreferrer" aria-label="Contacter MoroBest sur WhatsApp"><span>●</span><b>WhatsApp</b></a><a className="mp-float-order" href="#commander"><b>Commander · 169 DH</b><small dir="rtl">اطلب الآن</small></a></div>
-    </main>
-  );
+    <section className="mb-final"><div className="mb-wrap"><div><span>{ar ? "مرحبا بيك فـ MOROBEST" : "BIENVENUE CHEZ MOROBEST"}</span><h2>{ar ? <>الأحسن كيوصلك<br/><em>حتى لدارك.</em></> : <>Le meilleur arrive<br/><em>chez vous.</em></>}</h2></div><div className="mb-final-orbit"><span>م</span><i/><i/><i/></div></div></section>
+    <footer><div className="mb-wrap"><a className="mb-logo" href="#"><b>Moro</b>Best<i>.</i></a><p>{ar ? "أحسن المنتوجات، كتوصل حتى لدارك." : "Morocco's best products, livrés chez vous."}</p><span>© 2026 MoroBest · المغرب</span></div></footer>
+  </main>;
 }
