@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { saveOrder } from "@/lib/orders";
 
 const whatsappNumber = "212675409754";
 
@@ -20,8 +21,9 @@ const useCases = [
 
 export default function MultipriseLandingPage() {
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  function submitOrder(event: FormEvent<HTMLFormElement>) {
+  async function submitOrder(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const name = String(data.get("name") || "").trim();
@@ -35,6 +37,7 @@ export default function MultipriseLandingPage() {
     }
 
     setError("");
+    setIsSubmitting(true);
     const message = [
       "Bonjour MoroBest, je souhaite commander la multiprise 4 prises + 4 ports USB à 169 DH, livraison incluse.",
       "السلام عليكم، بغيت نطلب المشترك الكهربائي ديال 4 مقابس و4 منافذ USB بثمن 169 درهم، التوصيل داخل فالثمن.",
@@ -52,7 +55,25 @@ export default function MultipriseLandingPage() {
       value: 169,
       currency: "MAD",
     });
+    const sheetRequest = saveOrder({
+      product: "Multiprise 4 prises + 4 ports USB",
+      price: 169,
+      quantity: Number(quantity),
+      customerName: name,
+      phone,
+      address: city,
+      page: window.location.pathname,
+      website: String(data.get("website") || ""),
+    });
     window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+
+    try {
+      await sheetRequest;
+    } catch {
+      setError("WhatsApp a été ouvert, mais Google Sheets n'a pas pu enregistrer la commande. Merci de la noter manuellement.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -111,7 +132,7 @@ export default function MultipriseLandingPage() {
         <div className="mp-order-summary"><span>169 DH · LIVRAISON INCLUSE</span><h2>Prêt à simplifier vos branchements ?<small dir="rtl">واجد ترتّب أجهزتك؟</small></h2><img src="/multiprise-1.png" alt="Résumé des caractéristiques de la multiprise" /><p>Votre demande est envoyée directement à MoroBest sur WhatsApp. Notre équipe vous contacte pour confirmer les détails.</p></div>
         <form className="mp-form" onSubmit={submitOrder} noValidate><div><span>FORMULAIRE WHATSAPP</span><b>169 DH · Livraison incluse</b></div><h3>Où devons-nous livrer ?<small dir="rtl">فين نوصّلو ليك؟</small></h3>
           <label>Nom complet · الاسم الكامل<input name="name" autoComplete="name" placeholder="Votre nom / الاسم ديالك" /></label><label>Téléphone · رقم الهاتف<input name="phone" type="tel" inputMode="tel" autoComplete="tel" placeholder="06 12 34 56 78" /></label><label>Ville et adresse · المدينة والعنوان<textarea name="city" rows={3} autoComplete="street-address" placeholder="Ville, quartier, adresse / المدينة، الحي، العنوان" /></label><label>Quantité · الكمية<select name="quantity" defaultValue="1"><option value="1">1 multiprise</option><option value="2">2 multiprises</option><option value="3">3 multiprises</option><option value="4">4 multiprises</option></select></label>
-          {error && <p className="mp-form-error" role="alert">{error}</p>}<button type="submit">Envoyer sur WhatsApp <span>→</span><small dir="rtl">صيفط الطلب فواتساب</small></button><p className="mp-privacy">🔒 Vos informations servent uniquement à confirmer cette commande.</p>
+          <input name="website" type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" className="order-honeypot" />{error && <p className="mp-form-error" role="alert">{error}</p>}<button type="submit" disabled={isSubmitting}>{isSubmitting ? "Enregistrement…" : "Envoyer sur WhatsApp"} <span>→</span><small dir="rtl">صيفط الطلب فواتساب</small></button><p className="mp-privacy">🔒 Vos informations servent uniquement à confirmer cette commande.</p>
         </form>
       </div></section>
 

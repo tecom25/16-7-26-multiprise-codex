@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, MouseEvent, useState } from "react";
+import { saveOrder } from "@/lib/orders";
 
 const whatsappNumber = "212675409754";
 
@@ -28,6 +29,7 @@ const kit = ["Tondeuse de précision", "Coupe-griffes", "Peigne métallique", "L
 
 export default function Home() {
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   function tilt(event: MouseEvent<HTMLDivElement>) {
     const box = event.currentTarget.getBoundingClientRect();
@@ -44,7 +46,7 @@ export default function Home() {
     event.currentTarget.style.setProperty("--ry", "0deg");
   }
 
-  function submitOrder(event: FormEvent<HTMLFormElement>) {
+  async function submitOrder(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
     const name = String(form.get("name") || "").trim();
@@ -55,8 +57,27 @@ export default function Home() {
       return;
     }
     setError("");
+    setIsSubmitting(true);
     const message = `Bonjour, je souhaite commander le kit de toilettage Shool:One à 199 DH.\n\nNom : ${name}\nTéléphone : ${phone}\nVille / adresse : ${city}\n\nPaiement à la réception.`;
+    const sheetRequest = saveOrder({
+      product: "Kit de toilettage Shool:One",
+      price: 199,
+      quantity: 1,
+      customerName: name,
+      phone,
+      address: city,
+      page: window.location.pathname,
+      website: String(form.get("website") || ""),
+    });
     window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+
+    try {
+      await sheetRequest;
+    } catch {
+      setError("WhatsApp a été ouvert, mais Google Sheets n'a pas pu enregistrer la commande. Merci de la noter manuellement.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -97,7 +118,7 @@ export default function Home() {
 
       <section id="avis" className="quote-section"><div className="wrap"><p className="quote-mark">“</p><blockquote>La tondeuse est vraiment silencieuse. Mon petit chien reste calme et j’ai enfin tout ce qu’il faut dans une seule pochette.</blockquote><div className="stars">★★★★★</div><p><b>Samira A.</b> · Casablanca</p></div></section>
 
-      <section id="commander" className="order-section section"><div className="order-card wrap"><div className="order-summary"><span className="section-kicker">OFFRE DU MOMENT · عرض اليوم</span><h2>Votre kit complet<br/><em>à 199 DH</em></h2><img src="/grooming-kit.png" alt="Tous les accessoires inclus dans le kit"/><ul><li><Icon name="check"/>8 accessoires inclus · 8 أدوات</li><li><Icon name="check"/>Livraison partout au Maroc · التوصيل للمغرب كامل</li><li><Icon name="check"/>Paiement à la réception · الخلص عند الاستلام</li></ul></div><div className="order-form"><div className="form-head"><span>Commande rapide · طلب سريع</span><b>199 DH</b></div><h3>Où devons-nous livrer ? <span dir="rtl">فين نوصّلو ليك؟</span></h3><p>Remplissez ces informations. · عمّر المعلومات ديالك وغادي نوجدو الطلب عبر واتساب.</p><form onSubmit={submitOrder} noValidate><label>Nom complet · الاسم الكامل<input name="name" autoComplete="name" placeholder="Votre nom / الاسم ديالك"/></label><label>Téléphone · رقم الهاتف<input name="phone" type="tel" inputMode="tel" autoComplete="tel" placeholder="06 12 34 56 78"/></label><label>Ville et adresse · المدينة والعنوان<textarea name="city" rows={3} autoComplete="street-address" placeholder="Ville, quartier, adresse / المدينة، الحي، العنوان..."/></label>{error && <p className="form-error" role="alert">{error}</p>}<button className="button" type="submit">Commander via WhatsApp · طلب عبر واتساب <span>→</span></button><small><Icon name="shield"/> Vos informations servent uniquement à traiter votre commande. · معلوماتك غير لتجهيز الطلب.</small></form></div></div></section>
+      <section id="commander" className="order-section section"><div className="order-card wrap"><div className="order-summary"><span className="section-kicker">OFFRE DU MOMENT · عرض اليوم</span><h2>Votre kit complet<br/><em>à 199 DH</em></h2><img src="/grooming-kit.png" alt="Tous les accessoires inclus dans le kit"/><ul><li><Icon name="check"/>8 accessoires inclus · 8 أدوات</li><li><Icon name="check"/>Livraison partout au Maroc · التوصيل للمغرب كامل</li><li><Icon name="check"/>Paiement à la réception · الخلص عند الاستلام</li></ul></div><div className="order-form"><div className="form-head"><span>Commande rapide · طلب سريع</span><b>199 DH</b></div><h3>Où devons-nous livrer ? <span dir="rtl">فين نوصّلو ليك؟</span></h3><p>Remplissez ces informations. · عمّر المعلومات ديالك وغادي نوجدو الطلب عبر واتساب.</p><form onSubmit={submitOrder} noValidate><label>Nom complet · الاسم الكامل<input name="name" autoComplete="name" placeholder="Votre nom / الاسم ديالك"/></label><label>Téléphone · رقم الهاتف<input name="phone" type="tel" inputMode="tel" autoComplete="tel" placeholder="06 12 34 56 78"/></label><label>Ville et adresse · المدينة والعنوان<textarea name="city" rows={3} autoComplete="street-address" placeholder="Ville, quartier, adresse / المدينة، الحي، العنوان..."/></label><input name="website" type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" className="order-honeypot"/>{error && <p className="form-error" role="alert">{error}</p>}<button className="button" type="submit" disabled={isSubmitting}>{isSubmitting ? "Enregistrement…" : "Commander via WhatsApp · طلب عبر واتساب"} <span>→</span></button><small><Icon name="shield"/> Vos informations servent uniquement à traiter votre commande. · معلوماتك غير لتجهيز الطلب.</small></form></div></div></section>
 
       <footer><div className="wrap"><a href="#" className="brand"><b>Shool</b><span>:One</span><small>pet care</small></a><p>Le soin professionnel, avec la douceur de la maison.</p><span>© 2026 Shool:One · Maroc</span></div></footer>
       <a className="mobile-order" href="#commander"><span>Commander maintenant</span><b>199 DH</b></a>
