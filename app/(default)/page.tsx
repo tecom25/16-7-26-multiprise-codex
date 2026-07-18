@@ -25,7 +25,7 @@ const MiniIcon = ({ type }: { type: "box" | "truck" | "cash" | "spark" }) => {
 };
 
 export default function MoroccoBestHome() {
-  const [lang, setLang] = useState<"fr" | "ar">("fr");
+  const [lang, setLang] = useState<"fr" | "ar">("ar");
   const ar = lang === "ar";
   function moveStage(event: MouseEvent<HTMLDivElement>) {
     const rect = event.currentTarget.getBoundingClientRect();
@@ -65,22 +65,22 @@ export default function MoroccoBestHome() {
           <div className="mb-product-scene"><div className="mb-pedestal"/><div className="mb-box-shape"><i>MB</i></div><span className="mb-spark s1">✦</span><span className="mb-spark s2">✦</span></div>
           <div className="mb-post-copy"><b>{ar ? "المنتوج الجاي لي غيعجبك." : "Votre prochain coup de cœur."}</b><span>{ar ? "ساهل. سريع. حتى للدار." : "Simple. Rapide. Livré."}</span><button>{ar ? "اكتشف" : "Découvrir"}</button></div>
         </div>
-        <div className="mb-float mb-float-a"><span><MiniIcon type="spark"/></span><p><b>Sélection utile</b><small>Pour le quotidien</small></p></div>
-        <div className="mb-float mb-float-b"><span><MiniIcon type="truck"/></span><p><b>Livraison rapide</b><small>Partout au Maroc</small></p></div>
-        <div className="mb-float mb-float-c"><span>✓</span><p><b>Commande confirmée</b><small>Par notre équipe</small></p></div>
+        <div className="mb-float mb-float-a"><span><MiniIcon type="spark"/></span><p><b>{ar ? "اختيارات مفيدة" : "Sélection utile"}</b><small>{ar ? "لحياتك اليومية" : "Pour le quotidien"}</small></p></div>
+        <div className="mb-float mb-float-b"><span><MiniIcon type="truck"/></span><p><b>{ar ? "توصيل سريع" : "Livraison rapide"}</b><small>{ar ? "للمغرب كامل" : "Partout au Maroc"}</small></p></div>
+        <div className="mb-float mb-float-c"><span>✓</span><p><b>{ar ? "تأكد الطلب" : "Commande confirmée"}</b><small>{ar ? "مع الفريق ديالنا" : "Par notre équipe"}</small></p></div>
       </div>
     </section>
 
-    <section className="mb-marquee"><div>MAISON <i>✦</i> BEAUTÉ <i>✦</i> BIEN-ÊTRE <i>✦</i> ACCESSOIRES <i>✦</i> HIGH-TECH <i>✦</i> ANIMAUX <i>✦</i> QUOTIDIEN</div></section>
+    <section className="mb-marquee"><div>{ar ? <>الدار <i>✦</i> الجمال <i>✦</i> الراحة <i>✦</i> الإكسسوارات <i>✦</i> التكنولوجيا <i>✦</i> الحيوانات <i>✦</i> الحياة اليومية</> : <>MAISON <i>✦</i> BEAUTÉ <i>✦</i> BIEN-ÊTRE <i>✦</i> ACCESSOIRES <i>✦</i> HIGH-TECH <i>✦</i> ANIMAUX <i>✦</i> QUOTIDIEN</>}</div></section>
 
     <section id="mission" className="mb-mission mb-wrap">
-      <div className="mb-section-label">01 — NOTRE MISSION</div>
-      <div className="mb-mission-copy"><h2>Le e-commerce<br/><em>en toute confiance.</em></h2><p>Nous connectons les Marocains à une sélection variée de produits, avec une expérience claire, humaine et rassurante. Pas de carte bancaire, pas de complication : vous commandez, nous confirmons et vous payez à la réception.</p></div>
-      <div className="mb-stats"><article><strong>12</strong><span>régions<br/>desservies</span></article><article><strong>COD</strong><span>paiement<br/>à la livraison</span></article><article><strong>7/7</strong><span>suivi des<br/>commandes</span></article></div>
+      <div className="mb-section-label">{ar ? "01 — المهمة ديالنا" : "01 — NOTRE MISSION"}</div>
+      <div className="mb-mission-copy"><h2>{ar ? <>تجارة إلكترونية<br/><em>بالثقة والنية.</em></> : <>Le e-commerce<br/><em>en toute confiance.</em></>}</h2><p>{ar ? "كنقربوا للمغاربة اختيارات متنوعة ديال المنتوجات، بتجربة واضحة، إنسانية ومضمونة. بلا كارت بنكية وبلا تعقيدات: نتا كتطلب، حنا كنتاصلوا بيك، وكتخلص غير ملي يوصلك الكولي." : "Nous connectons les Marocains à une sélection variée de produits, avec une expérience claire, humaine et rassurante. Pas de carte bancaire, pas de complication : vous commandez, nous confirmons et vous payez à la réception."}</p></div>
+      <div className="mb-stats"><article><strong>12</strong><span>{ar ? <>جهة<br/>كنوصلوا ليها</> : <>régions<br/>desservies</>}</span></article><article><strong>COD</strong><span>{ar ? <>الخلص<br/>عند الاستلام</> : <>paiement<br/>à la livraison</>}</span></article><article><strong>7/7</strong><span>{ar ? <>تتبع<br/>الطلبيات</> : <>suivi des<br/>commandes</>}</span></article></div>
     </section>
 
     <section id="parcours" className="mb-process">
-      <div className="mb-wrap"><div className="mb-process-head"><div><span>02 — VOTRE PARCOURS</span><h2>Du premier clic<br/><em>jusqu&apos;à votre porte.</em></h2></div><p>Chaque commande suit un parcours précis. Notre équipe veille sur chaque étape pour que votre expérience reste simple et rapide.</p></div>
+      <div className="mb-wrap"><div className="mb-process-head"><div><span>{ar ? "02 — الطريق ديال طلبيتك" : "02 — VOTRE PARCOURS"}</span><h2>{ar ? <>من أول كليك<br/><em>حتى لباب دارك.</em></> : <>Du premier clic<br/><em>jusqu&apos;à votre porte.</em></>}</h2></div><p>{ar ? "كل طلبية كدوز من طريق واضح ومنظم. الفريق ديالنا كيتبع كل مرحلة باش تجربتك تبقى سهلة وسريعة." : "Chaque commande suit un parcours précis. Notre équipe veille sur chaque étape pour que votre expérience reste simple et rapide."}</p></div>
         <div className="mb-timeline">{steps.map(([number,title,text,arTitle,arText],index)=><article key={number}><div className="mb-step-line"><b>{number}</b><i/><span>{index===steps.length-1?"✓":""}</span></div><h3>{ar ? arTitle : title}</h3><p>{ar ? arText : text}</p></article>)}</div>
       </div>
     </section>
@@ -90,10 +90,10 @@ export default function MoroccoBestHome() {
     </section>
 
     <section id="engagements" className="mb-values mb-wrap">
-      <div className="mb-section-label">03 — NOS ENGAGEMENTS</div><div className="mb-values-grid"><h2>Pourquoi choisir<br/><em>MoroBest ?</em></h2><article><span><MiniIcon type="box"/></span><h3>Produits sélectionnés</h3><p>Des offres choisies pour leur utilité, leur tendance et leur rapport qualité-prix.</p></article><article><span><MiniIcon type="truck"/></span><h3>Livraison nationale</h3><p>Une logistique organisée pour vous servir, où que vous soyez au Maroc.</p></article><article><span><MiniIcon type="cash"/></span><h3>Aucun risque</h3><p>Vous réglez votre commande uniquement lorsqu&apos;elle arrive entre vos mains.</p></article></div>
+      <div className="mb-section-label">{ar ? "03 — الالتزام ديالنا" : "03 — NOS ENGAGEMENTS"}</div><div className="mb-values-grid"><h2>{ar ? <>علاش تختار<br/><em>MoroBest؟</em></> : <>Pourquoi choisir<br/><em>MoroBest ?</em></>}</h2><article><span><MiniIcon type="box"/></span><h3>{ar ? "منتوجات مختارة" : "Produits sélectionnés"}</h3><p>{ar ? "كنختاروا عروض مفيدة، مطلوبة وبثمن مناسب للجودة." : "Des offres choisies pour leur utilité, leur tendance et leur rapport qualité-prix."}</p></article><article><span><MiniIcon type="truck"/></span><h3>{ar ? "توصيل وطني" : "Livraison nationale"}</h3><p>{ar ? "خدمة توصيل منظمة باش توصلك الطلبية فين ما كنتي فالمغرب." : "Une logistique organisée pour vous servir, où que vous soyez au Maroc."}</p></article><article><span><MiniIcon type="cash"/></span><h3>{ar ? "بلا مخاطرة" : "Aucun risque"}</h3><p>{ar ? "ما كتخلص حتى يوصلك الكولي وتستلم الطلبية ديالك." : "Vous réglez votre commande uniquement lorsqu'elle arrive entre vos mains."}</p></article></div>
     </section>
 
-    <section className="mb-final"><div className="mb-wrap"><div><span>BIENVENUE CHEZ MOROBEST</span><h2>Le meilleur arrive<br/><em>chez vous.</em></h2></div><div className="mb-final-orbit"><span>M</span><i/><i/><i/></div></div></section>
-    <footer><div className="mb-wrap"><a className="mb-logo" href="#"><b>Moro</b>Best<i>.</i></a><p>Morocco&apos;s best products, livrés chez vous.</p><span>© 2026 MoroBest · Maroc</span></div></footer>
+    <section className="mb-final"><div className="mb-wrap"><div><span>{ar ? "مرحبا بيك فـ MOROBEST" : "BIENVENUE CHEZ MOROBEST"}</span><h2>{ar ? <>الأحسن كيوصلك<br/><em>حتى لدارك.</em></> : <>Le meilleur arrive<br/><em>chez vous.</em></>}</h2></div><div className="mb-final-orbit"><span>م</span><i/><i/><i/></div></div></section>
+    <footer><div className="mb-wrap"><a className="mb-logo" href="#"><b>Moro</b>Best<i>.</i></a><p>{ar ? "أحسن المنتوجات، كتوصل حتى لدارك." : "Morocco's best products, livrés chez vous."}</p><span>© 2026 MoroBest · المغرب</span></div></footer>
   </main>;
 }
