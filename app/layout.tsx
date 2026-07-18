@@ -1,4 +1,5 @@
 import "./css/style.css";
+import MetaPixel from "./meta-pixel";
 
 export const metadata = {
   title: "MoroBest | Morocco's Best Products",
@@ -6,5 +7,5 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return <html lang="fr-MA" className="scroll-smooth"><body>{children}</body></html>;
+  return <html lang="fr-MA" className="scroll-smooth"><body>{children}<MetaPixel /></body></html>;
 }

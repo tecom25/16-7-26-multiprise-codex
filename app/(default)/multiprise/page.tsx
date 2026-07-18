@@ -47,6 +47,11 @@ export default function MultipriseLandingPage() {
       "Total : 169 DH par unité, livraison incluse / 169 درهم للوحدة والتوصيل داخل فالثمن.",
       "Paiement à la réception / الدفع عند الاستلام.",
     ].join("\n");
+    window.fbq?.("track", "Lead", {
+      content_name: "Multiprise 4 prises + 4 USB",
+      value: 169,
+      currency: "MAD",
+    });
     window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
   }
 
