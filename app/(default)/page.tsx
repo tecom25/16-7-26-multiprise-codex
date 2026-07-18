@@ -1,7 +1,6 @@
 "use client";
 
 import { MouseEvent } from "react";
-import InstagramFeed from "@/components/instagram-feed";
 
 const steps = [
   ["01", "Vous voyez l’annonce", "Une offre claire apparaît sur vos réseaux sociaux.", "كتشوف الإشهار", "العرض كيبان ليك واضح فمواقع التواصل."],
@@ -83,8 +82,6 @@ export default function MoroccoBestHome() {
       </div>
       <div className="mb-sales-strip"><span><b>✓</b> منتوجات مختارة · Produits sélectionnés</span><span><b>✓</b> أثمنة مناسبة · Prix accessibles</span><span><b>✓</b> توصيل سريع · Livraison rapide</span><span><b>✓</b> الخلص عند الاستلام · Paiement à la réception</span></div>
     </section>
-
-    <InstagramFeed />
 
     <section id="mission" className="mb-mission mb-wrap">
       <div className="mb-section-label">{ar ? "01 — المهمة ديالنا" : "01 — NOTRE MISSION"}</div>
