@@ -90,7 +90,7 @@ export default function TelescopeLandingPage() {
         </div>
         <div className="ts-visual">
           <div className="ts-orbit ts-orbit-one" /><div className="ts-orbit ts-orbit-two" /><div className="ts-moon" />
-          <figure><img src="/telescope-product.jpg" alt="Télescope astronomique Science Horse avec trépied et accessoires" /><figcaption>Photo du produit</figcaption></figure>
+          <figure><img src="/telescope-angle-premium.png" alt="Vue premium du télescope astronomique avec son trépied et ses accessoires" /><figcaption>Le kit complet</figcaption></figure>
           <div className="ts-float ts-float-a"><b>30X</b><span>Observation facile</span></div>
           <div className="ts-float ts-float-b"><b>60X</b><span>Plus de détails</span></div>
           <div className="ts-float ts-float-c"><b>✦</b><span>Éveil scientifique</span></div>
@@ -104,12 +104,24 @@ export default function TelescopeLandingPage() {
         <div className="ts-feature-grid">{features.map((feature, index) => <article key={feature.title}><small>0{index + 1}</small><span>{feature.icon}</span><h3>{feature.title}</h3><p>{feature.text}</p></article>)}</div>
       </section>
 
+      <section className="ts-experience ts-section">
+        <div className="ts-wrap">
+          <div className="ts-heading ts-heading-light"><span>IMAGINEZ SA PREMIÈRE SOIRÉE D’OBSERVATION</span><h2>Un cadeau aujourd’hui.<br /><em>Des souvenirs pour longtemps.</em></h2><p>Un télescope qui réunit découverte, complicité et fierté d’apprendre.</p></div>
+          <div className="ts-gallery">
+            <figure className="ts-gallery-main"><img src="/telescope-lifestyle.png" alt="Parent accompagnant son enfant pendant une observation de la Lune avec le télescope" /><figcaption><b>Un moment à partager</b><span>Découvrir ensemble, sous la supervision d’un adulte.</span></figcaption></figure>
+            <figure><img src="/telescope-details.png" alt="Gros plan sur les oculaires, le viseur et le support téléphone du télescope" /><figcaption><b>Les accessoires essentiels</b><span>Deux grossissements et un support téléphone inclus.</span></figcaption></figure>
+            <figure><img src="/telescope-gift.png" alt="Télescope présenté comme cadeau éducatif avec sa boîte et ses accessoires" /><figcaption><b>Prêt à offrir</b><span>Une surprise qui éveille vraiment la curiosité.</span></figcaption></figure>
+          </div>
+          <a className="ts-gallery-cta" href="#commander">Créer son premier souvenir sous les étoiles <span>→</span></a>
+        </div>
+      </section>
+
       <section id="contenu" className="ts-box ts-section"><div className="ts-wrap ts-box-grid">
-        <div className="ts-box-photo"><img src="/telescope-product.jpg" alt="Télescope, trépied, support téléphone et boîte Science Horse" /><span>Kit complet prêt à explorer</span></div>
+        <div className="ts-box-photo"><img src="/telescope-details.png" alt="Vue rapprochée du télescope, des oculaires et du support téléphone" /><span>Accessoires inclus</span></div>
         <div className="ts-box-copy"><span className="ts-kicker-light">DANS LA BOÎTE</span><h2>Tout pour sa<br /><em>première exploration.</em></h2><p>Installez le trépied, choisissez le grossissement et commencez l’observation. Le support téléphone facilite le cadrage et le partage.</p><ul>{boxContents.map((item) => <li key={item}><span>✓</span>{item}</li>)}</ul><a href="#commander">Offrir le télescope <span>→</span></a></div>
       </div></section>
 
-      <section className="ts-gift ts-section ts-wrap"><div><span>LE CADEAU QUI OUVRE UN UNIVERS</span><h2>Moins d’écran.<br /><em>Plus d’émerveillement.</em></h2><p>Un cadeau éducatif qui invite à observer, poser des questions et découvrir le monde autrement.</p></div><div className="ts-gift-card"><span>✦</span><b>Idéal pour</b><p>Anniversaire · Réussite scolaire · Fête · Surprise</p><small>Utilisation recommandée sous la supervision d’un adulte.</small></div></section>
+      <section className="ts-gift ts-section ts-wrap"><div><span>LE CADEAU QUI OUVRE UN UNIVERS</span><h2>Moins d’écran.<br /><em>Plus d’émerveillement.</em></h2><p>Un cadeau éducatif qui invite à observer, poser des questions et découvrir le monde autrement.</p></div><div className="ts-gift-card"><img src="/telescope-gift.png" alt="Télescope présenté dans une ambiance cadeau" /><div><span>✦</span><b>Idéal pour</b><p>Anniversaire · Réussite scolaire · Fête · Surprise</p><small>Utilisation recommandée sous la supervision d’un adulte.</small></div></div></section>
 
       <section className="ts-reassurance"><div className="ts-wrap"><article><span>🚚</span><b>Livraison nationale</b><small>Partout au Maroc</small></article><article><span>💵</span><b>Paiement à la réception</b><small>Vous payez à la livraison</small></article><article><span>✓</span><b>Commande confirmée</b><small>Directement sur WhatsApp</small></article></div></section>
 
